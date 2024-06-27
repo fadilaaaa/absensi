@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 
 Route::get('/login', function () {
@@ -23,4 +23,23 @@ Route::get('/login', function () {
 
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
+});
+
+Route::get('/akun-petugas', function () {
+    return view('admin.akunPetugas');
+});
+Route::get('/jadwal', function () {
+    return view('admin.jadwal');
+});
+Route::get('/izin', function () {
+    return view('admin.izin');
+});
+Route::get('/presensi', function () {
+    return view('admin.presensi');
+});
+Route::get('/gaji', function () {
+    return view('admin.gaji');
+});
+Route::get('/pengaduan', function () {
+    return view('admin.pengaduan');
 });
