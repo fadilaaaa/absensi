@@ -226,6 +226,13 @@
 @endsection
 
 @push('scripts')
+    <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable();
+        });
+    </script>
     <script>
         const dataKehadiran = [10, 15, 8, 12, 20, 5]; // Contoh data
 

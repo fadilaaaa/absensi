@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,33 +14,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
+Route::get('/', [AuthController::class, 'login']);
 
 Route::get('/login', function () {
     return view('login');
+});
+Route::post('/login', [AuthController::class, 'actionLogin'])->name('login');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/logout', [AuthController::class, 'actionLogout']);
 });
 
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 });
-
-Route::get('/akun-petugas', function () {
-    return view('admin.akunPetugas');
-});
-Route::get('/jadwal', function () {
-    return view('admin.jadwal');
-});
-Route::get('/izin', function () {
-    return view('admin.izin');
-});
-Route::get('/presensi', function () {
-    return view('admin.presensi');
-});
-Route::get('/gaji', function () {
-    return view('admin.gaji');
-});
-Route::get('/pengaduan', function () {
-    return view('admin.pengaduan');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
+    Route::get('/akun-petugas', [\App\Http\Controllers\Admin\PetugasController::class, 'index']);
+    Route::delete('/akun-petugas/{id}', [\App\Http\Controllers\Admin\PetugasController::class, 'destroy']);
+    Route::get('/jadwal', [\App\Http\Controllers\Admin\JadwalController::class, 'index']);
+    Route::delete('/jadwal/{id}', [\App\Http\Controllers\Admin\JadwalController::class, 'destroy']);
+    Route::get('/izin', function () {
+        return view('admin.izin');
+    });
+    Route::get('/presensi', function () {
+        return view('admin.presensi');
+    });
+    Route::get('/gaji', function () {
+        return view('admin.gaji');
+    });
+    Route::get('/pengaduan', function () {
+        return view('admin.pengaduan');
+    });
 });

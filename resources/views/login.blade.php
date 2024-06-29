@@ -43,15 +43,22 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Login DLHK</h1>
                                     </div>
-                                    <form class="user">
+                                    @if (session('error'))
+                                        <div class="alert alert-danger">
+                                            <b>Opps!</b> {{ session('error') }}
+                                        </div>
+                                    @endif
+                                    <form class="user" action="{{ url('login') }}" method="POST">
+                                        @csrf
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input name="username" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                                placeholder="Username...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                            <input type="password" name="password"
+                                                class="form-control form-control-user" id="exampleInputPassword"
+                                                placeholder="Password">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -60,9 +67,8 @@
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a href="{{ url('dashboard') }}" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a>
+                                        <input type="submit" class="btn btn-primary btn-user btn-block" value="Login">
+                                        </input>
                                     </form>
                                 </div>
                             </div>
