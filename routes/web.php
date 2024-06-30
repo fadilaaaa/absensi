@@ -47,7 +47,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
         return view('admin.pengaduan');
     });
 });
-Route::group(['prefix' => 'petugas', 'middleware' => ['auth', 'role:petugas']], function () {
+Route::group(['prefix' => 'petugas', 'middleware' => ['auth', 'role:user']], function () {
     Route::get('/jadwal', [\App\Http\Controllers\Petugas\JadwalController::class, 'index']);
     Route::get('/izin', function () {
         return view('petugas.izin');
