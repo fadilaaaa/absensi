@@ -20,90 +20,69 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <style>
-        #logo_mbl {
-            display: none;
-            margin-left: auto;
-            margin-right: auto;
+        body{
+            margin: 0;
+            padding: 0;
+        }
+
+        .box-left{
+            background-color: rgb(7, 118, 24 , 0.7) !important;
+            position: relative;
+        }
+
+        .box-left img{
+            width: 400px;
+            height: 400px;
         }
 
         @media (max-width: 768px) {
-            #logo_mbl {
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
+            .box-left img {
+                width: 200px;
+                height: 200px;
             }
         }
     </style>
 </head>
 
-<body class="bg-gradient-primary">
-
-    <div class="container">
-
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-
-            <div class="col-xl-10 col-lg-12 col-md-9">
-
-                <div class="card o-hidden border-0 shadow-lg my-4">
-                    <div class="card-body p-0" style="height: 90vh">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row" style="height:100%;margin:auto;align-content:center;">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image">
-                                <div
-                                    style="
-                                    width:100%;
-                                    height:100%;
-                                    display:flex;
-                                    align-items:center;
-                                    ">
-                                    <img src="img/dlh.png" alt="DLHK" style="width: 400px; height: 400px">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <img id="logo_mbl" src="img/dlh.png" alt="DLHK"
-                                            style="width: 200px; height: 200px">
-                                        <h1 class="h4 text-gray-900 mb-4">Login DLHK</h1>
-                                    </div>
-                                    @if (session('error'))
-                                        <div class="alert alert-danger">
-                                            <b>Opps!</b> {{ session('error') }}
-                                        </div>
-                                    @endif
-                                    <form class="user" action="{{ url('login') }}" method="POST">
-                                        @csrf
-                                        <div class="form-group">
-                                            <input name="username" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Username...">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" name="password"
-                                                class="form-control form-control-user" id="exampleInputPassword"
-                                                placeholder="Password">
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <input type="submit" class="btn btn-primary btn-user btn-block" value="Login">
-                                        </input>
-                                    </form>
-                                </div>
+<body>
+    <div class="w-100 vh-100 m-0 p-0 o-hidden">
+        <div class="row h-100">
+            <div class="col-xl-6 box-left d-flex justify-content-center align-items-center">
+                <img src="{{ asset('img/dlh.png') }}" alt="DLHK">
+            </div>
+            <div class="col-xl-6 bg-white d-flex justify-content-center align-items-center">
+                <div class="col-md-6 col-8">
+                    <div class="text-center">
+                        <h1 class="h4 text-primary font-weight-bold mb-4">Login DLHK</h1>
+                    </div>
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            <b>Opps!</b> {{ session('error') }}
+                        </div>
+                    @endif
+                    <form class="user" action="{{ url('login') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <input name="username" class="form-control form-control-user"
+                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                placeholder="Username...">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password"
+                                class="form-control form-control-user" id="exampleInputPassword"
+                                placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox small">
+                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                <label class="custom-control-label" for="customCheck">Remember Me</label>
                             </div>
                         </div>
-                    </div>
+                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+                    </form>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <!-- Bootstrap core JavaScript-->
