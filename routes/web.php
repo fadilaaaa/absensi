@@ -26,9 +26,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [AuthController::class, 'actionLogout']);
 });
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-});
+Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index']);
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
     Route::get('/akun-petugas', [\App\Http\Controllers\Admin\PetugasController::class, 'index']);
     Route::delete('/akun-petugas/{id}', [\App\Http\Controllers\Admin\PetugasController::class, 'destroy']);
@@ -48,13 +46,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
     });
 });
 Route::group(['prefix' => 'petugas', 'middleware' => ['auth', 'role:user']], function () {
-    Route::get('/jadwal', [\App\Http\Controllers\Petugas\JadwalController::class, 'index']);
     Route::get('/izin', function () {
         return view('petugas.izin');
     });
     Route::get('/presensi', function () {
         return view('petugas.presensi');
     });
+    Route::get('/presensi/riwayat/{id}', [\App\Http\Controllers\Petugas\PresensiController::class, 'riwayat']);
     Route::get('/gaji', function () {
         return view('petugas.gaji');
     });
