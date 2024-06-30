@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\AuthController;
 
@@ -46,3 +47,5 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
         return view('admin.pengaduan');
     });
 });
+
+Route::get('/gitpullhooks', [\App\Http\Controllers\PullhookController::class, 'pull']);
