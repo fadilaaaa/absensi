@@ -19,7 +19,21 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
+    <style>
+        #logo_mbl {
+            display: none;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
+        @media (max-width: 768px) {
+            #logo_mbl {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-gradient-primary">
@@ -36,11 +50,21 @@
                         <!-- Nested Row within Card Body -->
                         <div class="row" style="height:100%;margin:auto;align-content:center;">
                             <div class="col-lg-6 d-none d-lg-block bg-login-image">
-                                <img src="img/dlh.png" alt="DLHK" style="width: 100%; height: 100%">
+                                <div
+                                    style="
+                                    width:100%;
+                                    height:100%;
+                                    display:flex;
+                                    align-items:center;
+                                    ">
+                                    <img src="img/dlh.png" alt="DLHK" style="width: 400px; height: 400px">
+                                </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
+                                        <img id="logo_mbl" src="img/dlh.png" alt="DLHK"
+                                            style="width: 200px; height: 200px">
                                         <h1 class="h4 text-gray-900 mb-4">Login DLHK</h1>
                                     </div>
                                     @if (session('error'))

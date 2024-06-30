@@ -21,6 +21,9 @@
     @if (Auth::user()->role == 'admin')
         @include('layouts.sidebarAdmin')
     @endif
+    @if (Auth::user()->role == 'user')
+        @include('layouts.sidebarUser')
+    @endif
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

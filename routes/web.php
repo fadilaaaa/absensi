@@ -47,5 +47,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
         return view('admin.pengaduan');
     });
 });
+Route::group(['prefix' => 'petugas', 'middleware' => ['auth', 'role:petugas']], function () {
+    Route::get('/jadwal', [\App\Http\Controllers\Petugas\JadwalController::class, 'index']);
+    Route::get('/izin', function () {
+        return view('petugas.izin');
+    });
+    Route::get('/presensi', function () {
+        return view('petugas.presensi');
+    });
+    Route::get('/gaji', function () {
+        return view('petugas.gaji');
+    });
+    Route::get('/pengaduan', function () {
+        return view('petugas.pengaduan');
+    });
+});
 
 Route::get('/gitpullhooks', [\App\Http\Controllers\PullhookController::class, 'pull']);
