@@ -6,10 +6,12 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('') }}">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i style="font-size: 1.5rem" class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-1">Arsa <sup>fad</sup></div>
+        @if (Auth::user()->role == 'user')
+            <div class="sidebar-brand-icon">
+                DLH
+            </div>
+        @endif
+        <div class="sidebar-brand-text mx-1">Dinas Lingkungan Hidup</div>
     </a>
 
     <!-- Divider -->
