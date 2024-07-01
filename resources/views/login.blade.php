@@ -10,7 +10,9 @@
     <meta name="author" content="">
 
     <title>DLHK | Login</title>
-
+    <!-- Favicons -->
+    <link href="{{ asset('favicon.ico') }}" rel="icon">
+    <link href="{{ asset('apple-touch-icon.png') }}" rel="apple-touch-icon">
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -20,17 +22,17 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <style>
-        body{
+        body {
             margin: 0;
             padding: 0;
         }
 
-        .box-left{
-            background-color: rgb(7, 118, 24 , 0.7) !important;
+        .box-left {
+            background-color: rgb(7, 118, 24, 0.7) !important;
             position: relative;
         }
 
-        .box-left img{
+        .box-left img {
             width: 400px;
             height: 400px;
         }
@@ -63,14 +65,12 @@
                     <form class="user" action="{{ url('login') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <input name="username" class="form-control form-control-user"
-                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                placeholder="Username...">
+                            <input name="username" class="form-control form-control-user" id="exampleInputEmail"
+                                aria-describedby="emailHelp" placeholder="Username...">
                         </div>
                         <div class="form-group">
-                            <input type="password" name="password"
-                                class="form-control form-control-user" id="exampleInputPassword"
-                                placeholder="Password">
+                            <input type="password" name="password" class="form-control form-control-user"
+                                id="exampleInputPassword" placeholder="Password">
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-checkbox small">
@@ -94,7 +94,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
 </body>
 
 </html>
