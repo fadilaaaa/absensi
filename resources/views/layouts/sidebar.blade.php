@@ -1,16 +1,9 @@
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion
-{{ Auth::user()->role == 'user' ? 'toggled' : '' }}
-"
-    id="accordionSidebar">
+" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('') }}">
-        @if (Auth::user()->role == 'user')
-            <div class="sidebar-brand-icon">
-                DLH
-            </div>
-        @endif
         <div class="sidebar-brand-text mx-1">Dinas Lingkungan Hidup</div>
     </a>
 

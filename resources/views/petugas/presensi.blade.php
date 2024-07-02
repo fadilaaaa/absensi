@@ -16,10 +16,11 @@
                         <div id="cam" style="width: 280px;
                         border:"></div>
                     </div>
-                    <div class="mb-2" style="display: flex;align-items: center;justify-content: center">
+                    <div class="mb-2 row" style="display: flex;align-items: center;justify-content: center">
                         <button id="take" class="btn btn-success">Foto</button>
                         <button class="btn btn-secondary" id="reset" hidden>Reset</button>
-                        <button class="btn btn-primary" id="submit" hidden>Absen Masuk</button>
+                        <div class="col-12" style="display: flex;align-items: center;justify-content: center"><button
+                                class="btn btn-primary mt-2" id="submit" hidden>Absen Masuk</button></div>
                     </div>
                     <a href="{{ url('petugas/presensi/riwayat/99') }}" class="btn btn-warning">Lihat Riwayat Presensi</a>
                 </div>

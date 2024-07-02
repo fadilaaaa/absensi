@@ -129,3 +129,31 @@
     </div>
 
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "order": [
+                    [0, "desc"]
+                ]
+            });
+            const dataFilterBox = $('#dataTable_filter');
+
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // $('#dataTable_length').parent().hide()
+            // $('#dataTable_filter').parent().addClass('col-md-12')
+            $('#dataTable_info').parent().parent().prepend(`
+            <div class="col-12" style="display: flex;justify-content: right">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Export Excel
+                </button>
+            </div>
+            `)
+        });
+    </script>
+@endpush

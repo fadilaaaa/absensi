@@ -134,9 +134,6 @@
     </div>
 @endsection
 @push('scripts')
-    <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({
@@ -147,7 +144,7 @@
 
             $('button[data-confirm-izin]').click(function(event) {
                 const button = $(event.relatedTarget)
-                swal.fire({
+                Swal.fire({
                     title: 'Konfirmasi',
                     text: 'Apakah Anda ingin melanjutkan aksi ini?',
                     icon: 'info',
@@ -168,7 +165,7 @@
             });
             $('[data-confirm-delete]').click(function(event) {
                 const button = $(event.relatedTarget)
-                swal.fire({
+                Swal.fire({
                     title: 'Apakah Anda yakin?',
                     text: 'Tindakan ini tidak dapat diurungkan!',
                     icon: 'warning',
@@ -187,6 +184,19 @@
                     }
                 });
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable_length').parent().hide()
+            $('#dataTable_filter').parent().addClass('col-md-12')
+            $('#dataTable_info').parent().parent().prepend(`
+            <div class="col-12" style="display: flex;justify-content: right">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Export Excel
+                </button>
+            </div>
+            `)
         });
     </script>
 @endpush

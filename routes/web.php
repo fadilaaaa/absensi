@@ -36,7 +36,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
         return view('admin.izin');
     });
     Route::get('/presensi', function () {
-        return view('admin.presensi');
+        return view('admin.presensiPeriod');
+    });
+    Route::get('presensi/periode/{id}', function ($id) {
+        return view('admin.presensi', ['id' => $id]);
     });
     Route::get('/gaji', function () {
         return view('admin.gaji');
@@ -46,6 +49,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
     });
 });
 Route::group(['prefix' => 'petugas', 'middleware' => ['auth', 'role:user']], function () {
+    Route::get('/jadwal', function () {
+        return view('petugas.jadwal');
+    });
     Route::get('/izin', function () {
         return view('petugas.izin');
     });

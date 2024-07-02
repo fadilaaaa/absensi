@@ -14,62 +14,80 @@
         <div class="row">
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
+                <div class="card shadow h-100 pb-0">
+                    <div class="card-body" style="background: blue; border-radius:.35rem .35rem 0 0">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
                                     Total Petugas</div>
-                                <div class="h3 mb-0 font-weight-bold text-gray-800">60</div>
+                                <div class="h3 mb-0 font-weight-bold text-white">60</div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                                <i class="fas fa-users fa-2x text-white"></i>
                             </div>
                         </div>
+                    </div>
+                    <div class="card-footer"
+                        style="display: flex;justify-content: space-between; padding:.5rem;
+                    border: 1px solid blue;border-radius:0 0 .35rem .35rem">
+                        <a href="#" style="color: blue">view detail</a>
+                        <p style="color: gray; margin:0">03/07/2024</p>
                     </div>
                 </div>
             </div>
             <!-- Pending Requests Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
-                    <div class="card-body">
+                <div class="card shadow h-100">
+                    <div class="card-body" style="background: green; border-radius:.35rem .35rem 0 0">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
                                     Total Hadir</div>
-                                <div class="h3 mb-0 font-weight-bold text-gray-800">18</div>
+                                <div class="h3 mb-0 font-weight-bold text-white">18</div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                                <i class="fas fa-users fa-2x text-white"></i>
                             </div>
                         </div>
+                    </div>
+                    <div class="card-footer"
+                        style="display: flex;justify-content: space-between; padding:.5rem;
+                    border: 1px solid green;border-radius:0 0 .35rem .35rem">
+                        <a href="#" style="color: green">view detail</a>
+                        <p style="color: gray; margin:0">03/07/2024</p>
                     </div>
                 </div>
             </div>
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
-                    <div class="card-body">
+                <div class="card shadow h-100">
+                    <div class="card-body" style="background: yellow; border-radius:.35rem .35rem 0 0">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Persentase Kehadiran
+                                <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Persentase Kehadiran
                                 </div>
                                 <div class="row no-gutters align-items-center">
                                     <div class="col-auto">
-                                        <div class="h3 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                        <div class="h3 mb-0 mr-3 font-weight-bold text-white">50%</div>
                                     </div>
                                     <div class="col">
                                         <div class="progress progress-sm mr-2">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
+                                            <div class="progress-bar bg-white" role="progressbar" style="width: 50%"
                                                 aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                <i class="fas fa-clipboard-list fa-2x text-white"></i>
                             </div>
                         </div>
+                    </div>
+                    <div class="card-footer"
+                        style="display: flex;justify-content: space-between; padding:.5rem;
+                    border: 1px solid yellow;border-radius:0 0 .35rem .35rem">
+                        <a href="#" style="color: yellow">view detail</a>
+                        <p style="color: gray; margin:0">03/07/2024</p>
                     </div>
                 </div>
             </div>
@@ -226,8 +244,6 @@
 @endsection
 
 @push('scripts')
-    <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable();

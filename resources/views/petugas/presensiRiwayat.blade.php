@@ -12,28 +12,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <label style="display: flex;margin-bottom: 0.5rem;align-items: center;">Filter:
-                                <div class="input-group mx-1">
-                                    <div class="input-group-prepend">
-                                        <label class="input-group-text" for="inputGroupSelect01">Bulan</label>
-                                    </div>
-                                    <select class="custom-select" id="inputGroupSelect01">
-                                        <option selected>Pilih</option>
-                                        <option value="Januari">Januari</option>
-                                        <option value="Februari">Februari</option>
-                                        <option value="Maret">Maret</option>
-                                        <option value="April">April</option>
-                                        <option value="Mei">Mei</option>
-                                        <option value="Juni">Juni</option>
-                                        <option value="Juli">Juli</option>
-                                        <option value="Agustus">Agustus</option>
-                                        <option value="September">September</option>
-                                        <option value="Oktober">Oktober</option>
-                                        <option value="November">November</option>
-                                        <option value="Desember">Desember</option>
-                                    </select>
-                                </div>
-                            </label>
+
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
@@ -81,16 +60,45 @@
 
 @endsection
 @push('scripts')
-    <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({
-
+                "pageLength": 5,
+                "pagingType": "simple_numbers",
             });
             const dataFilterBox = $('#dataTable_filter');
-            dataFilterBox.prepend(``);
+            dataFilterBox.prepend(`<label style="display: flex;margin-bottom: 0.5rem;align-items: center;">Filter:
+            <div class="input-group mx-1">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Bulan</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01">
+                    <option selected>Pilih</option>
+                    <option value="Januari">Januari</option>
+                    <option value="Februari">Februari</option>
+                    <option value="Maret">Maret</option>
+                    <option value="April">April</option>
+                    <option value="Mei">Mei</option>
+                    <option value="Juni">Juni</option>
+                    <option value="Juli">Juli</option>
+                    <option value="Agustus">Agustus</option>
+                    <option value="September">September</option>
+                    <option value="Oktober">Oktober</option>
+                    <option value="November">November</option>
+                    <option value="Desember">Desember</option>
+                </select>
+            </div>
+            <div class="input-group mx-1">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Tahun</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01">
+                    <option selected>Pilih</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                </select>
+            </div>
+        </label>`);
             dataFilterBox.css({
                 "display": "flex",
                 "justify-content": "space-between",
@@ -100,7 +108,15 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#dataTable_length').hide()
+            $('#dataTable_length').parent().hide()
+            $('#dataTable_filter').parent().addClass('col-md-12')
+            $('#dataTable_info').parent().parent().prepend(`
+            <div class="col-12" style="display: flex;justify-content: right">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Export Excel
+                </button>
+            </div>
+            `)
         });
     </script>
 @endpush

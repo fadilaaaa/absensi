@@ -5,7 +5,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12">
+            <div class=" col-md-10 col-sm-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">Pengajuan Izin/Cuti</h6>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12">
+            <div class="col-md-10 col-sm-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">Riwayat Pengajuan Izin/Cuti</h6>
@@ -85,9 +85,6 @@
 @endsection
 
 @push('scripts')
-    <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({

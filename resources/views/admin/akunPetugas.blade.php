@@ -35,11 +35,15 @@
                                     <input type="email" class="form-control" id="email">
                                     <label for="">No. Telepon</label>
                                     <input type="text" class="form-control" id="no_telepon">
-                                    <div class="row mt-4">
-                                        <div class="col-md-6">
+                                    <div class="row mt-4" style="display: flex;justify-content: center">
+                                        <div class="col-md-3">
+                                            <input type="button" class="btn btn-warning btn-user btn-block"
+                                                value="Import Akun">
+                                        </div>
+                                        <div class="col-md-3">
                                             <input type="submit" class="btn btn-primary btn-user btn-block" value="submit">
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <input type="reset" class="btn btn-danger btn-user btn-block" value="Batal">
                                         </div>
                                     </div>
@@ -288,8 +292,6 @@
     </div>
 @endsection
 @push('scripts')
-    <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({

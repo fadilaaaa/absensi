@@ -139,9 +139,6 @@
 
 @endsection
 @push('scripts')
-    <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({
@@ -182,6 +179,15 @@
             </select>
         </div>
     </label>`);
+            dataFilterBox.append(
+                `<button class="btn btn-primary" style="margin-left: 1rem"><i class="fas fa-sync-alt"></i> Refresh</button>`
+            );
+            dataFilterBox.append(
+                `<button class="btn btn-info" style="margin-left: 1rem"><i class="fas fa-plus"></i>  Tambah</button>`
+            );
+            dataFilterBox.append(
+                `<button class="btn btn-secondary" style="margin-left: 1rem"><i class="fas fa-print"></i>  Cetak</button>`
+                );
             dataFilterBox.css({
                 "display": "flex",
                 "justify-content": "space-between",
@@ -191,7 +197,15 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#dataTable_length').hide()
+            $('#dataTable_length').parent().hide()
+            $('#dataTable_filter').parent().addClass('col-md-12')
+            $('#dataTable_info').parent().parent().prepend(`
+            <div class="col-12" style="display: flex;justify-content: right">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Export Excel
+                </button>
+            </div>
+            `)
         });
     </script>
 @endpush

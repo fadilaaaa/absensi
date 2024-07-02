@@ -4,75 +4,101 @@
 
 @section('content')
     <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-2">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        </div>
+        <div class="row">
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Total Petugas</div>
+                                <div class="h3 mb-0 font-weight-bold text-gray-800">60</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Total Hadir</div>
+                                <div class="h3 mb-0 font-weight-bold text-gray-800">18</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Persentase Kehadiran
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h3 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="progress progress-sm mr-2">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
+                                                aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
         <div class="row mt-2">
             <div class="card" style="width: 100%">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Data Petugas</h6>
+                </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-2" style="white-space: nowrap;">
                             <p>Nama</p>
-                            <p>Shift</p>
-                            <p>Hari Kerja</p>
-                            <p>Status</p>
+                            <p>NIK</p>
+                            <p>Tanggal Lahir</p>
+                            <p>Alamat</p>
+                            <p>Emil</p>
+                            <p>No. Telepon</p>
                         </div>
                         <div class="col-1">
                             <p>:</p>
                             <p>:</p>
                             <p>:</p>
                             <p>:</p>
+                            <p>:</p>
+                            <p>:</p>
                         </div>
                         <div class="col-8">
-                            <p>Arsa Fadila</p>
-                            <p>07.00 - 15.00</p>
-                            <p>Senin - Jumat</p>
-                            <p>Belum Absen</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        {{-- <hr class="solid></hr> --}}
-        <div class="row mt-3 text-center">
-            <div class="col-6 col-md-3 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a href="/petugas/presensi" class="btn btn-link text-decoration-none">
-                            <i class="fas fa-calendar-check fa-3x mb-2"></i>
-                            <h5>Presensi</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- Lihat Gaji -->
-            <div class="col-6 col-md-3 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a href="/petugas/gaji" class="btn btn-link text-decoration-none">
-                            <i class="fas fa-money-check-alt fa-3x mb-2"></i>
-                            <h5>Lihat Gaji</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- Izin/Cuti -->
-            <div class="col-6 col-md-3 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a href="/petugas/izin" class="btn btn-link text-decoration-none">
-                            <i class="fas fa-calendar-alt fa-3x mb-2"></i>
-                            <h5>Izin/Cuti</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- Pengaduan -->
-            <div class="col-6 col-md-3 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a href="/petugas/pengaduan" class="btn btn-link text-decoration-none">
-                            <i class="fas fa-comments fa-3x mb-2"></i>
-                            <h5>Pengaduan</h5>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>

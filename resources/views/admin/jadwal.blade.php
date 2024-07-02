@@ -119,10 +119,9 @@
                                     <label for="">Periode Bulan</label>
                                     <select name="periode" class="form-control">
                                         <option value="">Pilih Periode Bulan</option>
-                                        <option value="Januari-Maret">Januari-Maret</option>
-                                        <option value="April-Juni">April-Juni</option>
-                                        <option value="Juli-September">Juli-September</option>
-                                        <option value="Oktober-Desember">Oktober-Desember</option>
+                                        <option value="Januari-Mei">Januari-Mei</option>
+                                        <option value="Jubi-Desember">Jubi-Desember</option>
+
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
@@ -148,9 +147,6 @@
 @endsection
 
 @push('scripts')
-    <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ url('/vendor/selectize-bootstrap4/dist/js/selectize.js') }}"></script>
     <script>
         @if (session('success'))
             // swal("Berhasil!", "{{ session('success') }}", "success");
