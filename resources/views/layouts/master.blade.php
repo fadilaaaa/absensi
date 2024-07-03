@@ -44,9 +44,9 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav style="height: 3rem"
-                    class="navbar navbar-expand navbar-light bg-white topbar mb-1 static-top shadow">
-
+                <nav style="height: 3rem; background-color: rgb(0, 118, 24, 0.5);"
+                    class="navbar navbar-expand topbar mb-1 static-top shadow">
+                    <span class="text-dark font-weight-bold">Selamat Datang di Website Dinas Lingkungan Hidup</span>
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -61,7 +61,7 @@
                         <li class="nav-item  no-arrow" style="cursor: move">
                             <a style="cursor: default" class="nav-link" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                <span class="mr-2 d-none d-lg-inline text-dark font-weight-bold small">
                                     {{ Auth::user()->name }}({{ Auth::user()->role }})
                                 </span>
                             </a>

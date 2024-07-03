@@ -24,6 +24,7 @@
                                 <label for="jenisPengajuan">Jenis Pengajuan</label>
                                 <select class="form-control" id="jenisPengajuan" name="jenisPengajuan" required>
                                     <option value="">Pilih Jenis Pengajuan</option>
+                                    <option value="sakit">Sakit</option>
                                     <option value="izin">Izin</option>
                                     <option value="cuti">Cuti</option>
                                 </select>
