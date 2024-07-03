@@ -46,7 +46,7 @@
                 <!-- Topbar -->
                 <nav style="height: 3rem; background-color: rgb(0, 118, 24, 0.5);"
                     class="navbar navbar-expand topbar mb-1 static-top shadow">
-                    <span class="text-dark font-weight-bold">Selamat Datang di Website Dinas Lingkungan Hidup</span>
+                    <span class="text-dark font-weight-bold d-none d-lg-block">Selamat Datang di Website Dinas Lingkungan Hidup</span>
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>

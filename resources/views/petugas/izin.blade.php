@@ -55,25 +55,24 @@
                                     <tr>
 
                                         <th>Tanggal</th>
-                                        <th>Status</th>
                                         <th>Jenis Pengajuan</th>
                                         <th>Keterangan</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-
                                         <td>23 Maret 2024</td>
-                                        <td>Menunggu persetujuan</td>
                                         <td>Izin</td>
                                         <td>Perjalanan dinas ke luar kota</td>
+                                        <td>Menunggu persetujuan</td>
                                     </tr>
                                     <tr>
 
                                         <td>22 Maret 2024</td>
-                                        <td>Disetujui</td>
                                         <td>Cuti</td>
                                         <td>Cuti tahunan</td>
+                                        <td>Disetujui</td>
                                     </tr>
                                 </tbody>
                             </table>
