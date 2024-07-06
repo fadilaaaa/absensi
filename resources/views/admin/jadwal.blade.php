@@ -13,29 +13,30 @@
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
-                        <form action="" method="post">
+                        <form action="{{ url('admin/jadwal') }}" method="post">
+                            @csrf
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputEmail4">Nama Petugas</label>
-                                    <input type="text" class="form-control">
+                                    {{-- <input type="text" class="form-control"> --}}
+                                    <select class="form-control" name="nama" id="nama"></select>
                                     <label>NIK</label>
-                                    <input type="text" class="form-control" id="nik">
+                                    <select class="form-control" name="nik" id="nik"></select>
                                     <label for="">Periode Bulan</label>
-                                    <select class="form-control" id="periode_bulan">
+                                    <select name="periode" class="form-control" id="periode_bulan">
                                         <option value="">Pilih Periode Bulan</option>
-                                        <option value="1">Januari-Maret</option>
-                                        <option value="2">April-Juni</option>
-                                        <option value="3">Juli-September</option>
-                                        <option value="4">Oktober-Desember</option>
+                                        <option value="Januari-Mei">Januari-Mei</option>
+                                        <option value="Juni-Desember">Juni-Desember</option>
                                     </select>
+
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Lokasi</label>
-                                    <input type="text" class="form-control" id="alamat">
+                                    <input name="lokasi" type="text" class="form-control" id="alamat">
                                     <label>Waktu</label>
-                                    <input type="text" class="form-control" id="tanggal_lahir">
+                                    <input name="waktu" type="text" class="form-control" id="tanggal_lahir">
                                     <label for="">Hari</label>
-                                    <input type="text" class="form-control" id="email">
+                                    <input name="hari" type="text" class="form-control" id="email">
                                     <div class="row mt-4">
                                         <div class="col-md-6">
                                             <input type="submit" class="btn btn-primary btn-user btn-block" value="submit">
@@ -71,7 +72,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    @foreach ($jadwal as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->petugas->name }}</td>
+                                            <td>{{ $item->petugas->nik }}</td>
+                                            <td>{{ $item->periode }}</td>
+                                            <td>{{ $item->lokasi }}</td>
+                                            <td>{{ $item->waktu }}</td>
+                                            <td>{{ $item->hari }}</td>
+                                            <td class="action-column" style="white-space: nowrap">
+                                                <button data-toggle="modal" data-target="#exampleModal"
+                                                    data-nama="{{ $item->petugas->name }}"
+                                                    data-nik="{{ $item->petugas->nik }}"
+                                                    data-periode="{{ $item->periode }}" data-alamat="{{ $item->lokasi }}"
+                                                    data-waktu="{{ $item->waktu }}" data-hari="{{ $item->hari }}"
+                                                    data-action="{{ url('admin/jadwal/' . $item->id) }}"
+                                                    class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <a data-confirm-delete="true" href="{{ url('admin/jadwal/' . $item->id) }}"
+                                                    class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    {{-- <tr>
                                         <td>1</td>
                                         <td>Ahmad Fauzi</td>
                                         <td>3201123456789012</td>
@@ -91,7 +118,7 @@
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </td>
-                                    </tr>
+                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>
@@ -101,7 +128,9 @@
         </div>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form>
+                <form method="POST" id="formEdit">
+                    @csrf
+                    @method('put')
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Edit Akun Petugas</h5>
@@ -113,14 +142,16 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputEmail4">Nama Petugas</label>
-                                    <input name="nama" type="text" class="form-control">
+                                    <select class="form-control" name="nama" id="editNama"></select>
+                                    {{-- <input id="editNama" name="nama" type="text" class="form-control"> --}}
                                     <label>NIK</label>
-                                    <input name="nik" type="text" class="form-control">
+                                    {{-- <input id="editNik" name="nik" type="text" class="form-control"> --}}
+                                    <select name="nik" id="editNik" class="form-control"></select>
                                     <label for="">Periode Bulan</label>
                                     <select name="periode" class="form-control">
                                         <option value="">Pilih Periode Bulan</option>
                                         <option value="Januari-Mei">Januari-Mei</option>
-                                        <option value="Jubi-Desember">Jubi-Desember</option>
+                                        <option value="Juni-Desember">Juni-Desember</option>
 
                                     </select>
                                 </div>
@@ -148,6 +179,83 @@
 
 @push('scripts')
     <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable();
+        });
+    </script>
+    <script>
+        const dataPetugas = @json($petugas);
+        // const niks = dataPetugas.map(petugas => petugas.nik);
+        $(document).ready(function() {
+            $('#nik').selectize({
+                valueField: 'nik',
+                labelField: 'nik',
+                searchField: 'nik',
+                options: dataPetugas.map(petugas => ({
+                    nik: petugas.nik
+                })),
+                create: false,
+                onChange: function(value) {
+                    const petugas = dataPetugas.find(petugas => petugas.nik === value);
+                    if (petugas.name !== $('#nama')[0].selectize.getValue()) {
+                        console.log(petugas.name, $('#nama')[0].selectize.getValue());
+                        $('#nama')[0]
+                            .selectize.setValue(petugas.name);
+                    }
+                    // console.log($('#nama')[0].selectize.getValue());;
+                }
+            });
+            $('#editNik').selectize({
+                valueField: 'nik',
+                labelField: 'nik',
+                searchField: 'nik',
+                options: dataPetugas.map(petugas => ({
+                    nik: petugas.nik
+                })),
+                create: false,
+                onChange: function(value) {
+                    const petugas = dataPetugas.find(petugas => petugas.nik === value);
+                    if (petugas.name !== $('#editNama')[0].selectize.getValue()) {
+                        $('#editNama')[0]
+                            .selectize.setValue(petugas.name);
+                    }
+                    // console.log($('#nama')[0].selectize.getValue());;
+                }
+            });
+            $('#nama').selectize({
+                valueField: 'name',
+                labelField: 'name',
+                searchField: 'name',
+                options: dataPetugas.map(petugas => ({
+                    name: petugas.name
+                })),
+                create: false,
+                onChange: function(value) {
+                    const petugas = dataPetugas.find(petugas => petugas.name === value);
+                    if (petugas.nik !== $('#nik')[0].selectize.getValue()) {
+                        console.log(petugas.nik, $('#nik')[0].selectize.getValue());
+                        $('#nik')[0].selectize.setValue(petugas.nik);
+                    }
+                }
+            });
+            $('#editNama').selectize({
+                valueField: 'name',
+                labelField: 'name',
+                searchField: 'name',
+                options: dataPetugas.map(petugas => ({
+                    name: petugas.name
+                })),
+                create: false,
+                onChange: function(value) {
+                    const petugas = dataPetugas.find(petugas => petugas.name === value);
+                    if (petugas.nik !== $('#editNik')[0].selectize.getValue()) {
+                        $('#editNik')[0].selectize.setValue(petugas.nik);
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
         @if (session('success'))
             // swal("Berhasil!", "{{ session('success') }}", "success");
             var toastMixin = Swal.mixin({
@@ -171,10 +279,6 @@
         @endif
     </script>
     <script>
-        $('#periode_bulan').selectize({
-            create: false
-        });
-
         $('#exampleModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget);
             var nama = button.data('nama');
@@ -184,12 +288,13 @@
             var waktu = button.data('waktu');
             var hari = button.data('hari');
             var modal = $(this);
-            modal.find('.modal-body input[name=nama]').val(nama);
-            modal.find('.modal-body input[name=nik]').val(nik);
+            $('#editNama')[0].selectize.setValue(nama);
+            $('#editNik')[0].selectize.setValue(nik);
             modal.find('.modal-body select[name=periode]').val(periode);
             modal.find('.modal-body input[name=lokasi]').val(alamat);
             modal.find('.modal-body input[name=waktu]').val(waktu);
             modal.find('.modal-body input[name=hari]').val(hari);
+            $('#formEdit').attr('action', button.data('action'));
         });
     </script>
 @endpush

@@ -17,26 +17,22 @@
                                     <th></th>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="row"
-                                                style="display: flex; justify-content: space-between; cursor:pointer;"
-                                                onclick="location.href='{{ url('admin/presensi/periode/99') }}'">
-                                                <div class="col-6">List Presensi Periode Bulan Januari - Mei 2024</div>
-                                                <div class="col-2">60 Petugas</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="row"
-                                                style="display: flex; justify-content: space-between; cursor:pointer;"
-                                                onclick="location.href='{{ url('admin/presensi/periode/99') }}'">
-                                                <div class="col-6">list presensi Periode Bulan Juni - Desember 2024</div>
-                                                <div class="col-2">60 Petugas</div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @foreach ($presensis as $year => $periods)
+                                        @foreach ($periods as $periode => $count)
+                                            <tr>
+                                                <td>
+                                                    <div class="row"
+                                                        style="display: flex; justify-content: space-between; cursor:pointer;"
+                                                        onclick="location.href='{{ url('admin/presensi/periode/' . $year . '/' . $periode) }}'">
+                                                        <div class="col-6">List Presensi Periode Bulan {{ $periode }}
+                                                            {{ $year }}
+                                                        </div>
+                                                        <div class="col-2">{{ $count }} Petugas</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

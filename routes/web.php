@@ -29,18 +29,20 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index']);
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
     Route::get('/akun-petugas', [\App\Http\Controllers\Admin\PetugasController::class, 'index']);
+    Route::post('/akun-petugas', [\App\Http\Controllers\Admin\PetugasController::class, 'store']);
+    Route::put('/akun-petugas/{id}', [\App\Http\Controllers\Admin\PetugasController::class, 'update']);
     Route::delete('/akun-petugas/{id}', [\App\Http\Controllers\Admin\PetugasController::class, 'destroy']);
+
     Route::get('/jadwal', [\App\Http\Controllers\Admin\JadwalController::class, 'index']);
+    Route::post('/jadwal', [\App\Http\Controllers\Admin\JadwalController::class, 'store']);
+    Route::put('/jadwal/{id}', [\App\Http\Controllers\Admin\JadwalController::class, 'update']);
     Route::delete('/jadwal/{id}', [\App\Http\Controllers\Admin\JadwalController::class, 'destroy']);
-    Route::get('/izin', function () {
-        return view('admin.izin');
-    });
-    Route::get('/presensi', function () {
-        return view('admin.presensiPeriod');
-    });
-    Route::get('presensi/periode/{id}', function ($id) {
-        return view('admin.presensi', ['id' => $id]);
-    });
+
+    Route::get('/izin', [\App\Http\Controllers\Admin\IzinController::class, 'index']);
+    Route::get('/izin/{id}/{code}', [\App\Http\Controllers\Admin\IzinController::class, 'setuju']);
+
+    Route::get('/presensi', [\App\Http\Controllers\Admin\PresensiController::class, 'index']);
+    Route::get('presensi/periode/{year}/{periode}', [\App\Http\Controllers\Admin\PresensiController::class, 'periode']);
     Route::get('/gaji', function () {
         return view('admin.gaji');
     });
@@ -52,12 +54,10 @@ Route::group(['prefix' => 'petugas', 'middleware' => ['auth', 'role:user']], fun
     Route::get('/jadwal', function () {
         return view('petugas.jadwal');
     });
-    Route::get('/izin', function () {
-        return view('petugas.izin');
-    });
-    Route::get('/presensi', function () {
-        return view('petugas.presensi');
-    });
+    Route::get('/izin', [\App\Http\Controllers\Petugas\IzinController::class, 'index']);
+    Route::post('/izin', [\App\Http\Controllers\Petugas\IzinController::class, 'store']);
+    Route::get('/presensi', [\App\Http\Controllers\Petugas\PresensiController::class, 'index']);
+    Route::post('/presensi', [\App\Http\Controllers\Petugas\PresensiController::class, 'absen']);
     Route::get('/presensi/riwayat/{id}', [\App\Http\Controllers\Petugas\PresensiController::class, 'riwayat']);
     Route::get('/gaji', function () {
         return view('petugas.gaji');

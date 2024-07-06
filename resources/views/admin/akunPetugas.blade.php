@@ -13,28 +13,29 @@
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
-                        <form action="" method="post">
+                        <form action="{{ url('admin/akun-petugas') }}" method="POST">
+                            @csrf
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputEmail4">Username</label>
-                                    <input type="text" class="form-control">
+                                    <input name="username" type="text" class="form-control">
                                     <label for="inputPassword4">Password</label>
-                                    <input type="password" class="form-control">
+                                    <input name="password" type="password" class="form-control">
                                     <label>Nama</label>
-                                    <input type="text" class="form-control" id="nama">
+                                    <input name="nama" type="text" class="form-control" id="nama">
                                     <label>NIK</label>
-                                    <input type="text" class="form-control" id="nik">
+                                    <input name="nik" type="text" class="form-control" id="nik">
 
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Alamat</label>
-                                    <input type="text" class="form-control" id="alamat">
+                                    <input name="alamat" type="text" class="form-control" id="alamat">
                                     <label>Tanggal Lahir</label>
-                                    <input type="date" class="form-control" id="tanggal_lahir">
+                                    <input name="tgl_lahir" type="date" class="form-control" id="tanggal_lahir">
                                     <label for="">Email</label>
-                                    <input type="email" class="form-control" id="email">
+                                    <input name="email" type="email" class="form-control" id="email">
                                     <label for="">No. Telepon</label>
-                                    <input type="text" class="form-control" id="no_telepon">
+                                    <input name="no_telp" type="text" class="form-control" id="no_telepon">
                                     <div class="row mt-4" style="display: flex;justify-content: center">
                                         <div class="col-md-3">
                                             <input type="button" class="btn btn-warning btn-user btn-block"
@@ -74,170 +75,34 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Ahmad Fauzi</td>
-                                        <td>3201123456789012</td>
-                                        <td>1985-05-14</td>
-                                        <td>Jl. Melati No. 10, Jakarta</td>
-                                        <td>081234567890</td>
-                                        <td class="action-column">
-                                            <button data-toggle="modal" data-target="#exampleModal" data-nama="Ahmad Fauzi"
-                                                data-nik="3201123456789012" data-tgl-lahir="1985-05-14"
-                                                data-alamat="Jl. Melati No. 10, Jakarta" data-telepon="081234567890"
-                                                class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <a data-confirm-delete="true" href="{{ url('admin/akun-petugas/99') }}"
-                                                class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Siti Rahmawati</td>
-                                        <td>3201123456789013</td>
-                                        <td>1990-08-21</td>
-                                        <td>Jl. Kenanga No. 20, Bandung</td>
-                                        <td>081234567891</td>
-                                        <td class="action-column">
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <a data-confirm-delete="true" class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Budi Santoso</td>
-                                        <td>3201123456789014</td>
-                                        <td>1978-11-05</td>
-                                        <td>Jl. Mawar No. 5, Surabaya</td>
-                                        <td>081234567892</td>
-                                        <td class="action-column">
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Lina Kartika</td>
-                                        <td>3201123456789015</td>
-                                        <td>1982-03-30</td>
-                                        <td>Jl. Dahlia No. 15, Yogyakarta</td>
-                                        <td>081234567893</td>
-                                        <td class="action-column">
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Agus Prasetyo</td>
-                                        <td>3201123456789016</td>
-                                        <td>1987-07-19</td>
-                                        <td>Jl. Anggrek No. 7, Semarang</td>
-                                        <td>081234567894</td>
-                                        <td class="action-column">
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Indah Permatasari</td>
-                                        <td>3201123456789017</td>
-                                        <td>1992-09-14</td>
-                                        <td>Jl. Melur No. 21, Malang</td>
-                                        <td>081234567895</td>
-                                        <td class="action-column">
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>Rudi Setiawan</td>
-                                        <td>3201123456789018</td>
-                                        <td>1980-12-05</td>
-                                        <td>Jl. Seroja No. 18, Medan</td>
-                                        <td>081234567896</td>
-                                        <td class="action-column">
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td>Yuni Anggraini</td>
-                                        <td>3201123456789019</td>
-                                        <td>1991-06-22</td>
-                                        <td>Jl. Melati No. 9, Palembang</td>
-                                        <td>081234567897</td>
-                                        <td class="action-column">
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td>Eko Wibowo</td>
-                                        <td>3201123456789020</td>
-                                        <td>1979-04-10</td>
-                                        <td>Jl. Teratai No. 12, Bali</td>
-                                        <td>081234567898</td>
-                                        <td class="action-column">
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td>Rina Oktaviani</td>
-                                        <td>3201123456789021</td>
-                                        <td>1988-10-15</td>
-                                        <td>Jl. Kemuning No. 8, Balikpapan</td>
-                                        <td>081234567899</td>
-                                        <td class="action-column">
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+
+                                    @foreach ($petugas as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->nik }}</td>
+                                            <td>{{ $item->tgl_lahir }}</td>
+                                            <td>{{ $item->alamat }}</td>
+                                            <td>{{ $item->no_telp }}</td>
+                                            <td class="action-column">
+                                                <button data-toggle="modal" data-target="#exampleModal"
+                                                    data-nama="{{ $item->name }}" data-nik="{{ $item->nik }}"
+                                                    data-tgl-lahir="{{ $item->tgl_lahir }}"
+                                                    data-alamat="{{ $item->alamat }}" data-telepon="{{ $item->no_telp }}"
+                                                    data-email="{{ $item->email }}"
+                                                    data-username="{{ $item->user->username }}"
+                                                    data-action="{{ url('admin/akun-petugas/' . $item->id) }}"
+                                                    class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <a data-confirm-delete="true"
+                                                    href="{{ url('admin/akun-petugas/' . $item->id) }}"
+                                                    class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -248,7 +113,9 @@
     </div>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form>
+            <form id="modalForm" method="POST">
+                @csrf
+                @method('PUT')
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Edit Akun Petugas</h5>
@@ -260,24 +127,24 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputUsername">Username</label>
-                                <input type="text" class="form-control" id="inputUsername">
+                                <input name="username" type="text" class="form-control" id="inputUsername">
                                 <label for="inputPassword">Password</label>
-                                <input type="password" class="form-control" id="inputPassword">
+                                <input name="password" type="password" class="form-control" id="inputPassword">
                                 <label for="inputNama">Nama</label>
-                                <input type="text" class="form-control" id="inputNama">
+                                <input name="nama" type="text" class="form-control" id="inputNama">
                                 <label>NIK</label>
-                                <input type="text" class="form-control" id="inputNik">
+                                <input name="nik" type="text" class="form-control" id="inputNik">
 
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputAlamat">Alamat</label>
-                                <input type="text" class="form-control" id="inputAlamat">
+                                <input name="alamat" type="text" class="form-control" id="inputAlamat">
                                 <label for="inputTanggalLahir">Tanggal Lahir</label>
-                                <input type="date" class="form-control" id="inputTanggalLahir">
+                                <input name="tgl_lahir" type="date" class="form-control" id="inputTanggalLahir">
                                 <label for="inputEmail">Email</label>
-                                <input type="email" class="form-control" id="inputEmail">
+                                <input name="email" type="email" class="form-control" id="inputEmail">
                                 <label for="inputTelepon">No. Telepon</label>
-                                <input type="text" class="form-control" id="inputTelepon">
+                                <input name="no_telp" type="text" class="form-control" id="inputTelepon">
                             </div>
                         </div>
                     </div>
@@ -314,6 +181,8 @@
                     var tanggalLahir = button.getAttribute('data-tgl-lahir');
                     var alamat = button.getAttribute('data-alamat');
                     var telepon = button.getAttribute('data-telepon');
+                    var email = button.getAttribute('data-email');
+                    var username = button.getAttribute('data-username');
 
                     document.getElementById('inputNama').value = nama;
                     document.getElementById('inputNik').value = nik;
@@ -321,9 +190,10 @@
                     document.getElementById('inputAlamat').value = alamat;
                     document.getElementById('inputTelepon').value = telepon;
 
-                    document.getElementById('inputUsername').value = 'blablabla';
-                    document.getElementById('inputPassword').value = '';
-                    document.getElementById('inputEmail').value = 'blablablabla@email.com';
+                    document.getElementById('inputUsername').value = username;
+                    document.getElementById('inputEmail').value = email;
+                    document.getElementById('modalForm').action = button.getAttribute(
+                        'data-action');
                 });
             });
         });

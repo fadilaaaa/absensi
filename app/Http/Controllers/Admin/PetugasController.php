@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Session;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\Petugas;
 
 class PetugasController extends \App\Http\Controllers\Controller
 {
@@ -14,12 +16,87 @@ class PetugasController extends \App\Http\Controllers\Controller
         $title = 'Delete Data!';
         $text = "Are you sure you want to delete?";
         confirmDelete($title, $text);
-        return view('admin.akunPetugas');
+
+
+        $petugas = Petugas::where('is_admin', 0)->with('user')->get();
+        // dd($petugas);
+        return view('admin.akunPetugas', compact('petugas'));
+    }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'username' => 'required',
+            'nik' => 'required',
+            'email' => 'required',
+            'alamat' => 'required',
+            'tgl_lahir' => 'required',
+            'no_telp' => 'required',
+            'password' => 'required',
+        ]);
+
+        DB::transaction(function () use ($request) {
+            $user = \App\Models\User::create([
+                'username' => $request->username,
+                'password' => bcrypt($request->password),
+            ]);
+
+            $petugas = \App\Models\Petugas::create([
+                'name' => $request->nama,
+                'nik' => $request->nik,
+                'email' => $request->email,
+                'alamat' => $request->alamat,
+                'tgl_lahir' => $request->tgl_lahir,
+                'no_telp' => $request->no_telp,
+                'user_id' => $user->id,
+            ]);
+        });
+        toast('Success', 'Data Added Successfully');
+        return redirect('admin/akun-petugas')->with('success', 'Data Added Successfully');
+    }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'username' => 'required',
+            'nik' => 'required',
+            'email' => 'required',
+            'alamat' => 'required',
+            'tgl_lahir' => 'required',
+            'no_telp' => 'required',
+        ]);
+        DB::beginTransaction();
+        try {
+            $petugas = \App\Models\Petugas::find($id);
+            $petugas->name = $request->nama;
+            $petugas->nik = $request->nik;
+            $petugas->email = $request->email;
+            $petugas->alamat = $request->alamat;
+            $petugas->tgl_lahir = $request->tgl_lahir;
+            $petugas->no_telp = $request->no_telp;
+            $petugas->save();
+
+            $user = \App\Models\User::find($petugas->user_id);
+            $user->username = $request->username;
+            if ($request->password) {
+                $user->password = bcrypt($request->password);
+                // dd($user->password);
+            }
+            $user->save();
+
+            DB::commit();
+            toast('Success', 'Data Updated Successfully');
+            return redirect('admin/akun-petugas')->with('success', 'Data Updated Successfully');
+        } catch (\Exception $e) {
+            DB::rollback();
+            toast('Error', 'Data Updated Failed');
+            return redirect('admin/akun-petugas')->with('error', 'Data Updated Failed');
+        }
     }
     public function destroy($id)
     {
-        // $petugas = \App\Models\Petugas::find($id);
-        // $petugas->delete();
+        $petugas = \App\Models\Petugas::find($id);
+        $petugas->delete();
         toast('Success', 'Data Deleted Successfully');
         return redirect('admin/akun-petugas')->with('success', 'Data Deleted Successfully');
     }

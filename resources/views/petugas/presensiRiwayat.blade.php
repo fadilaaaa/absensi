@@ -3,6 +3,7 @@
 @section('title', 'Riwayat Presensi')
 
 @section('content')
+    {{-- @dd($presensi) --}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-12 col-lg-11">
@@ -24,29 +25,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>23 Maret 2024</td>
-                                        <td>Kantor</td>
-                                        <td>08.00</td>
-                                        <td>belum keluar</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>22 Maret 2024</td>
-                                        <td>Kantor</td>
-                                        <td>08.00</td>
-                                        <td>16.00</td>
-                                    </tr>
-                                    @for ($i = 3; $i <= 10; $i++)
+                                    {{-- @dd($presensi[0]->petugas->jadwal) --}}
+                                    @foreach ($presensi as $item)
                                         <tr>
-                                            <td>{{ $i }}</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ date('Y-m-d', strtotime($item->created_at)) }}</td>
+                                            <td>{{ $item->petugas->jadwal[0]->lokasi }}</td>
+                                            <td>{{ date('H:i', strtotime($item->waktu_masuk)) }}</td>
+                                            <td>{{ date('H:i', strtotime($item->waktu_keluar)) }}</td>
                                         </tr>
-                                    @endfor
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

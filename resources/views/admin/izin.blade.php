@@ -25,103 +25,37 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Ahmad Fauzi</td>
-                                        <td>3201123456789012</td>
-                                        <td>22 Maret 2024</td>
-                                        <td>Sakit</td>
-                                        <td>Demam</td>
-                                        <td class="action-column">
-                                            <button data-confirm-izin="true" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                            <a data-confirm-delete="true" class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    @foreach ($izin as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->petugas->name }}</td>
+                                            <td>{{ $item->petugas->nik }}</td>
+                                            <td>{{ $item->tanggal }}</td>
+                                            <td>{{ $item->jenis }}</td>
+                                            <td>{{ $item->keterangan }}</td>
+                                            <td class="action-column">
+                                                @if ($item->status == 'disetujui')
+                                                    <span class="badge badge-success">disetujui</span>
+                                                @endif
+                                                @if ($item->status == 'ditolak')
+                                                    <span class="badge badge-danger">ditolak</span>
+                                                @endif
+                                                @if ($item->status == 'pending')
+                                                    <button data-action="{{ url('admin/izin/' . $item->id . '/1') }}"
+                                                        data-confirm-izin="true" class="btn btn-sm btn-primary">
+                                                        <i data-action="{{ url('admin/izin/' . $item->id . '/1') }}"
+                                                            class="fas fa-check"></i>
+                                                    </button>
+                                                    <a data-action="{{ url('admin/izin/' . $item->id . '/2') }}"
+                                                        data-confirm-delet="true" class="btn btn-sm btn-danger">
+                                                        <i data-action="{{ url('admin/izin/' . $item->id . '/2') }}"
+                                                            class="fas fa-times"></i>
+                                                    </a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
                                 </tbody>
                             </table>
                         </div>
@@ -137,13 +71,13 @@
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({
-                "order": [
-                    [0, "desc"]
-                ]
+
             });
 
             $('button[data-confirm-izin]').click(function(event) {
-                const button = $(event.relatedTarget)
+                const button = $(event.target)
+                const action = button.data('action')
+
                 Swal.fire({
                     title: 'Konfirmasi',
                     text: 'Apakah Anda ingin melanjutkan aksi ini?',
@@ -155,16 +89,13 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Swal.fire(
-                            'Berhasil!',
-                            'Aksi telah dikonfirmasi.',
-                            'success'
-                        );
+                        window.location.href = action;
                     }
                 });
             });
-            $('[data-confirm-delete]').click(function(event) {
-                const button = $(event.relatedTarget)
+            $('[data-confirm-delet]').click(function(event) {
+                const button = $(event.target)
+                const action = button.data('action')
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
                     text: 'Tindakan ini tidak dapat diurungkan!',
@@ -176,11 +107,9 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Swal.fire(
-                            'Berhasil!',
-                            'Data telah dihapus.',
-                            'success'
-                        );
+                        // console.log('but', button);
+                        // console.log('act', action);
+                        window.location.href = action;
                     }
                 });
             });
@@ -198,5 +127,28 @@
             </div>
             `)
         });
+    </script>
+    <script>
+        @if (session('success'))
+            // swal("Berhasil!", "{{ session('success') }}", "success");
+            var toastMixin = Swal.mixin({
+                toast: true,
+                icon: 'success',
+                title: 'General Title',
+                animation: false,
+                position: 'top-right',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+            toastMixin.fire({
+                animation: true,
+                title: '{{ session('success') }}'
+            });
+        @endif
     </script>
 @endpush

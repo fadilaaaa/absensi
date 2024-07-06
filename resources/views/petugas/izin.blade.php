@@ -61,19 +61,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>23 Maret 2024</td>
-                                        <td>Izin</td>
-                                        <td>Perjalanan dinas ke luar kota</td>
-                                        <td>Menunggu persetujuan</td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>22 Maret 2024</td>
-                                        <td>Cuti</td>
-                                        <td>Cuti tahunan</td>
-                                        <td>Disetujui</td>
-                                    </tr>
+                                    @foreach ($izin as $item)
+                                        <tr>
+                                            <td>{{ $item->tanggal }}</td>
+                                            <td>{{ $item->jenis }}</td>
+                                            <td>{{ $item->keterangan }}</td>
+                                            <td>{{ $item->status }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -91,5 +86,28 @@
                 "order": [0, 'desc'],
             });
         });
+    </script>
+    <script>
+        @if (session('success'))
+            // swal("Berhasil!", "{{ session('success') }}", "success");
+            var toastMixin = Swal.mixin({
+                toast: true,
+                icon: 'success',
+                title: 'General Title',
+                animation: false,
+                position: 'top-right',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+            toastMixin.fire({
+                animation: true,
+                title: '{{ session('success') }}'
+            });
+        @endif
     </script>
 @endpush
