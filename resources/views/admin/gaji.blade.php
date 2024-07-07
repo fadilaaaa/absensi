@@ -32,7 +32,7 @@
                                         <td>Rp. 150.000</td>
                                         <td>Rp. 20.000</td>
                                         <td>Rp. 130.000</td>
-                                        <td class="action-column">
+                                        <td class="action-column" style="white-space: nowrap">
                                             <button data-confirm-izin="true" class="btn btn-sm btn-primary">
                                                 <i class="fas fa-signal"></i>
                                             </button>
@@ -187,7 +187,7 @@
             );
             dataFilterBox.append(
                 `<button class="btn btn-secondary" style="margin-left: 1rem"><i class="fas fa-print"></i>  Cetak</button>`
-                );
+            );
             dataFilterBox.css({
                 "display": "flex",
                 "justify-content": "space-between",

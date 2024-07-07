@@ -30,6 +30,7 @@ Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'ind
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
     Route::get('/akun-petugas', [\App\Http\Controllers\Admin\PetugasController::class, 'index']);
     Route::post('/akun-petugas', [\App\Http\Controllers\Admin\PetugasController::class, 'store']);
+    Route::post('/akun-petugas/import', [\App\Http\Controllers\Admin\PetugasController::class, 'import']);
     Route::put('/akun-petugas/{id}', [\App\Http\Controllers\Admin\PetugasController::class, 'update']);
     Route::delete('/akun-petugas/{id}', [\App\Http\Controllers\Admin\PetugasController::class, 'destroy']);
 
@@ -40,15 +41,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
 
     Route::get('/izin', [\App\Http\Controllers\Admin\IzinController::class, 'index']);
     Route::get('/izin/{id}/{code}', [\App\Http\Controllers\Admin\IzinController::class, 'setuju']);
+    Route::get('/izin/export', [\App\Http\Controllers\Admin\IzinController::class, 'export']);
 
     Route::get('/presensi', [\App\Http\Controllers\Admin\PresensiController::class, 'index']);
     Route::get('presensi/periode/{year}/{periode}', [\App\Http\Controllers\Admin\PresensiController::class, 'periode']);
+    Route::get('presensi/periode/{year}/{periode}/export', [\App\Http\Controllers\Admin\PresensiController::class, 'export']);
     Route::get('/gaji', function () {
         return view('admin.gaji');
     });
-    Route::get('/pengaduan', function () {
-        return view('admin.pengaduan');
-    });
+    Route::get('/pengaduan', [\App\Http\Controllers\Admin\PengaduanController::class, 'index']);
 });
 Route::group(['prefix' => 'petugas', 'middleware' => ['auth', 'role:user']], function () {
     Route::get('/jadwal', function () {
@@ -65,6 +66,7 @@ Route::group(['prefix' => 'petugas', 'middleware' => ['auth', 'role:user']], fun
     Route::get('/pengaduan', function () {
         return view('petugas.pengaduan');
     });
+    Route::post('/pengaduan', [\App\Http\Controllers\Admin\PengaduanController::class, 'store']);
 });
 
 Route::get('/gitpullhooks', [\App\Http\Controllers\PullhookController::class, 'pull']);

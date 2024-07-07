@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Petugas;
+use Faker\Factory as Faker;
 
 class PetugasController extends \App\Http\Controllers\Controller
 {
@@ -21,6 +22,42 @@ class PetugasController extends \App\Http\Controllers\Controller
         $petugas = Petugas::where('is_admin', 0)->with('user')->get();
         // dd($petugas);
         return view('admin.akunPetugas', compact('petugas'));
+    }
+    public function import(Request $request)
+    {
+        try {
+            $request->validate([
+                'data' => 'required',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $th) {
+            return response()->json(['status' => 'error', 'message' => 'Data Required'], 500);
+        }
+        $faker = Faker::create('id_ID');
+        $data = $request->data;
+        DB::beginTransaction();
+        try {
+            foreach ($data as $key => $value) {
+                $user = \App\Models\User::create([
+                    'username' => $faker->userName(),
+                    'password' => bcrypt($faker->password()),
+                ]);
+                $petugas = \App\Models\Petugas::create([
+                    'name' => $value['nama'],
+                    'nik' => $value['nik'],
+                    'email' => $value['email'],
+                    'alamat' => $value['alamat'],
+                    'tgl_lahir' => $value['tgl lahir'],
+                    'no_telp' => $value['no telepon'],
+                    'user_id' => $user->id,
+                ]);
+            }
+            DB::commit();
+            return response()->json(['status' => 'success', 'message' => 'Data Added Successfully'], 200);
+        } catch (\Exception $e) {
+            dd($data);
+            DB::rollback();
+            return response()->json(['status' => 'error', 'message' => 'Data Added Failed'], 500);
+        }
     }
     public function store(Request $request)
     {

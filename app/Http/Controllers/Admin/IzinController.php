@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Session;
 use RealRashid\SweetAlert\Facades\Alert;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\IzinExport;
 use App\Models\Izin;
 
 class IzinController extends \App\Http\Controllers\Controller
@@ -33,5 +35,10 @@ class IzinController extends \App\Http\Controllers\Controller
         $izin->status = $code;
         $izin->save();
         return redirect('admin/izin')->with('success', 'Data Updated Successfully');
+    }
+    public function export()
+    {
+        $time = date('Y-m-d H:i:s');
+        return Excel::download(new IzinExport, 'izin_' . $time . '.xlsx');
     }
 }

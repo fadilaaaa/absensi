@@ -11,7 +11,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">Form Pengaduan</h6>
                     </div>
                     <div class="card-body">
-                        <form action="{{ url('petugas/izin') }}" method="POST">
+                        <form action="{{ url('petugas/pengaduan') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <!-- Field Tanggal -->
                             <div class="form-group">
@@ -35,7 +35,7 @@
                                         <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                                     </div>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="file"
+                                        <input name="foto" type="file" class="custom-file-input" id="file"
                                             aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                     </div>
@@ -75,5 +75,35 @@
                 reader.readAsDataURL(file);
             }
         });
+    </script>
+    <script>
+        @if (session('success'))
+            // swal("Berhasil!", "{{ session('success') }}", "success");
+            var toastMixin = Swal.mixin({
+                toast: true,
+                icon: 'success',
+                title: 'General Title',
+                animation: false,
+                position: 'top-right',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+            toastMixin.fire({
+                animation: true,
+                title: '{{ session('success') }}'
+            });
+        @endif
+        @if (session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: '{{ session('error') }}',
+            });
+        @endif
     </script>
 @endpush

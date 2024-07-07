@@ -33,9 +33,14 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
         ]);
         for ($i = 2; $i < 11; $i++) {
+            if ($i == 2) {
+                $userName = 'user';
+            } else {
+                $userName = $faker->userName;
+            }
             $user = \App\Models\User::create([
                 'id' => $i,
-                'username' => $faker->userName,
+                'username' => $userName,
                 'password' => bcrypt('user'),
             ]);
             $petugas = \App\Models\Petugas::create([
@@ -83,6 +88,13 @@ class DatabaseSeeder extends Seeder
                 'bukti_keluar' => 'imgpres/ex.png',
                 'waktu_keluar' => date('H:i:s', time() + 60 * 60 * 10),
                 'created_at' => date("Y-m-d H:i:s", strtotime("-1 day")),
+            ]);
+            \App\Models\Pengaduan::create([
+                'petugas_id' => $user->id,
+                'tanggal' => date('Y-m-d'),
+                'lokasi' => $faker->address,
+                'keterangan' => $faker->sentence,
+                'foto' => 'ex.jpg',
             ]);
         }
     }

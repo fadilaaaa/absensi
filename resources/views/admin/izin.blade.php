@@ -33,7 +33,7 @@
                                             <td>{{ $item->tanggal }}</td>
                                             <td>{{ $item->jenis }}</td>
                                             <td>{{ $item->keterangan }}</td>
-                                            <td class="action-column">
+                                            <td class="action-column" style="white-space: nowrap">
                                                 @if ($item->status == 'disetujui')
                                                     <span class="badge badge-success">disetujui</span>
                                                 @endif
@@ -121,9 +121,9 @@
             $('#dataTable_filter').parent().addClass('col-md-12')
             $('#dataTable_info').parent().parent().prepend(`
             <div class="col-12" style="display: flex;justify-content: right">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                <a href="{{ url('admin/izin/export') }}" class="btn btn-primary">
                     Export Excel
-                </button>
+                </a>
             </div>
             `)
         });

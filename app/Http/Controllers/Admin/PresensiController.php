@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Session;
 use RealRashid\SweetAlert\Facades\Alert;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PresensiExport;
 use App\Models\Presensi;
 
 class PresensiController extends \App\Http\Controllers\Controller
@@ -31,5 +33,10 @@ class PresensiController extends \App\Http\Controllers\Controller
             ->where('jadwals.periode', $periode)
             ->get();
         return view('admin.presensi', compact('presensis'));
+    }
+    public function export(Request $request, $year, $periode)
+    {
+        $time = date('Y-m-d H:i:s');
+        return Excel::download(new PresensiExport(['year' => $year, 'periode' => $periode]), 'presensi_' . $time . '.xlsx');
     }
 }

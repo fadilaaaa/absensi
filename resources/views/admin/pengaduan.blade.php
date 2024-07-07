@@ -8,7 +8,7 @@
             <div class="col-xl-12 col-lg-11">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Data Presensi Petugas</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Data Pengaduan</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -25,98 +25,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Ahmad Fauzi</td>
-                                        <td>3201123456789012</td>
-                                        <td>22 Maret 2024</td>
-                                        <td>Kantor</td>
-                                        <td><img src="https://picsum.photos/seed/picsum/100?blur" alt=""
-                                                srcset=""></td>
-                                        <td>Kebakaran</td>
+                                    @foreach ($pengaduan as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->petugas->name }}</td>
+                                            <td>{{ $item->petugas->nik }}</td>
+                                            <td>{{ $item->tanggal }}</td>
+                                            <td>{{ $item->lokasi }}</td>
+                                            <td><img src="{{ url('storage/imgpengaduan/' . $item->foto) }}" alt=""
+                                                    srcset="" style="width: 100px;height: auto;"></td>
+                                            <td>{{ $item->keterangan }}</td>
+                                        </tr>
+                                    @endforeach
 
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -134,9 +55,7 @@
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({
-                "order": [
-                    [0, "desc"]
-                ]
+
             });
             const dataFilterBox = $('#dataTable_filter');
 
