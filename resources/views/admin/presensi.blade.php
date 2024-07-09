@@ -31,7 +31,7 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->nik }}</td>
-                                            <td>{{ $item->lokasi }}</td>
+                                            <td>{{ date('Y-m-d', strtotime($item->created_at)) }}</td>
                                             <td>{{ $item->petugas->jadwal[0]->lokasi }}</td>
                                             <td>{{ date('H:i', strtotime($item->waktu_masuk)) }}</td>
                                             <td>{{ date('H:i', strtotime($item->waktu_keluar)) }}</td>
@@ -51,11 +51,54 @@
 @endsection
 @push('scripts')
     <script>
+        const monthMap = {
+            'Januari': 1,
+            'Februari': 2,
+            'Maret': 3,
+            'April': 4,
+            'Mei': 5,
+            'Juni': 6,
+            'Juli': 7,
+            'Agustus': 8,
+            'September': 9,
+            'Oktober': 10,
+            'November': 11,
+            'Desember': 12
+        };
+
+        // Peta balik dari nomor bulan ke nama bulan
+        const reverseMonthMap = Object.keys(monthMap).reduce((acc, month) => {
+            acc[monthMap[month]] = month;
+            return acc;
+        }, {});
+
+        // Fungsi untuk mendapatkan rentang bulan dari string
+        function getMonthsInRange(rangeString) {
+            const [startMonth, endMonth] = rangeString.split('-').map(month => month.trim());
+            const startMonthNumber = monthMap[startMonth];
+            const endMonthNumber = monthMap[endMonth];
+
+            // Hasilkan array bulan
+            const monthsInRange = [];
+            for (let i = startMonthNumber; i <= endMonthNumber; i++) {
+                monthsInRange.push(reverseMonthMap[i]);
+            }
+
+            return monthsInRange;
+        }
+        let bulans = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+        let selectedMonth = bulans.split('?bulan=')[1];
+        if (bulans.includes('?')) {
+            bulans = bulans.substring(0, bulans.indexOf('?'));
+        }
+        const months = getMonthsInRange(bulans);
+
+        const OptionsMonthsString = months.map(month =>
+            `<option ${(selectedMonth===month?'selected':'')} value="${month}">${month}</option>`).join('');
+
         $(document).ready(function() {
             $('#dataTable').DataTable({
-                "order": [
-                    [0, "desc"]
-                ]
+
             });
             const dataFilterBox = $('#dataTable_filter');
             dataFilterBox.prepend(`<label style="display: flex;margin-bottom: 0.5rem;align-items: center;">Filter:
@@ -63,20 +106,9 @@
             <div class="input-group-prepend">
                 <label class="input-group-text" for="inputGroupSelect01">Bulan</label>
             </div>
-            <select class="custom-select" id="inputGroupSelect01">
+            <select class="custom-select" id="monthInput">
                 <option selected>Pilih</option>
-                <option value="Januari">Januari</option>
-                <option value="Februari">Februari</option>
-                <option value="Maret">Maret</option>
-                <option value="April">April</option>
-                <option value="Mei">Mei</option>
-                <option value="Juni">Juni</option>
-                <option value="Juli">Juli</option>
-                <option value="Agustus">Agustus</option>
-                <option value="September">September</option>
-                <option value="Oktober">Oktober</option>
-                <option value="November">November</option>
-                <option value="Desember">Desember</option>
+                ${OptionsMonthsString}
             </select>
         </div>
     </label>`);
@@ -89,7 +121,12 @@
     </script>
     <script>
         $(document).ready(function() {
+            $('#monthInput').change(function() {
+                const selectedMonth = $(this).val();
+                let uri = window.location.href.split('?')[0];
 
+                window.location.href = uri + '?bulan=' + selectedMonth;
+            });
             $('#dataTable_length').parent().hide()
             $('#dataTable_filter').parent().addClass('col-md-12')
             $('#dataTable_info').parent().parent().prepend(`

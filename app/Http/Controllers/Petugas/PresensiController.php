@@ -47,14 +47,21 @@ class PresensiController extends \App\Http\Controllers\Controller
                 ->whereDate('created_at', date('Y-m-d'))
                 ->first();
             if ($todayPresensi) {
+                if ($todayPresensi->waktu_masuk == null) {
+                    $imageName = $this->storeImage($request, 'masuk_');
+                    $todayPresensi->update([
+                        'waktu_masuk' => date('H:i:s'),
+                        'bukti_masuk' => 'imgpres/' . $imageName,
+                    ]);
+                    DB::commit();
+                    return response()->json(['status' => 'success', 'message' => 'Data Added Successfully', 'img' => $imageName], 200);
+                }
                 $imageName = $this->storeImage($request, 'keluar_');
                 $todayPresensi->update([
                     'waktu_keluar' => date('H:i:s'),
                     'bukti_keluar' => 'imgpres/' . $imageName,
                 ]);
                 DB::commit();
-                // toast('Success', 'Data Added Successfully');
-                // return redirect('petugas/presensi')->with('success', 'Data Added Successfully');
                 return response()->json(['status' => 'success', 'message' => 'Data Added Successfully', 'img' => $imageName], 200);
             }
             $imageName = $this->storeImage($request, 'masuk_');
@@ -67,13 +74,14 @@ class PresensiController extends \App\Http\Controllers\Controller
             return response()->json(['status' => 'success', 'message' => 'Data Added Successfully', 'img' => $imageName], 200);
         } catch (\Exception $e) {
             DB::rollback();
-            return $e;
+            // return $e;
             return response()->json(['status' => 'error', 'message' => 'Data Added Failed'], 500);
         }
     }
     public function riwayat($id)
     {
         $presensi = Presensi::where('petugas_id', Auth::user()->petugas->id)
+            ->whereNotNull('waktu_masuk')
             ->orderBy('created_at', 'desc')->get();
         return view('petugas.presensiRiwayat', compact('presensi'));
     }

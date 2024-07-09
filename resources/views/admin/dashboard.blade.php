@@ -20,7 +20,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
                                     Total Petugas</div>
-                                <div class="h3 mb-0 font-weight-bold text-white">60</div>
+                                <div class="h3 mb-0 font-weight-bold text-white">{{ $totalPetugas }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-users fa-2x text-white"></i>
@@ -43,7 +43,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
                                     Total Hadir</div>
-                                <div class="h3 mb-0 font-weight-bold text-white">18</div>
+                                <div class="h3 mb-0 font-weight-bold text-white">{{ $totalHadirHariIni }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-users fa-2x text-white"></i>
@@ -68,12 +68,16 @@
                                 </div>
                                 <div class="row no-gutters align-items-center">
                                     <div class="col-auto">
-                                        <div class="h3 mb-0 mr-3 font-weight-bold text-white">50%</div>
+                                        <div class="h3 mb-0 mr-3 font-weight-bold text-white">
+                                            {{ floor($presentasiKehadiran) }}%
+                                        </div>
                                     </div>
                                     <div class="col">
                                         <div class="progress progress-sm mr-2">
-                                            <div class="progress-bar bg-white" role="progressbar" style="width: 50%"
-                                                aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar bg-white" role="progressbar"
+                                                style="width: {{ $presentasiKehadiran }}%"
+                                                aria-valuenow="{{ $presentasiKehadiran }}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +98,6 @@
 
 
         </div>
-
         <!-- Content Row -->
 
         <div class="row">
@@ -250,6 +253,8 @@
         });
     </script>
     <script>
+        var totalHadirPerhariSelamaSeminggu = @json($totalHadirPerhariSelamaSeminggu);
+
         const dataKehadiran = [10, 15, 8, 12, 20, 5]; // Contoh data
 
         // Membuat chart
@@ -257,9 +262,9 @@
         const kehadiranChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
+                labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
                 datasets: [{
-                    data: dataKehadiran,
+                    data: Object.values(totalHadirPerhariSelamaSeminggu),
                     borderColor: "rgba(78, 115, 223, 1)",
                     backgroundColor: "rgba(78, 115, 223, 0.2)",
                     fill: false,
@@ -273,8 +278,22 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
                     y: {
-                        beginAtZero: true
+                        ticks: {
+                            beginAtZero: true,
+                            // max: 60,
+                            // callback: (val, i, ticks) => (i < ticks.length - 1 ? val : null)
+                            callback: function(value) {
+                                if (value % 1 === 0) {
+                                    return value;
+                                }
+                            }
+                        }
                     }
                 },
                 plugins: {
@@ -297,5 +316,28 @@
             },
             plugins: [ChartDataLabels]
         });
+    </script>
+    <script>
+        @if (session('success'))
+            // swal("Berhasil!", "{{ session('success') }}", "success");
+            var toastMixin = Swal.mixin({
+                toast: true,
+                icon: 'success',
+                title: 'General Title',
+                animation: false,
+                position: 'top-right',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+            toastMixin.fire({
+                animation: true,
+                title: '{{ session('success') }}'
+            });
+        @endif
     </script>
 @endpush

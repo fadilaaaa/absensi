@@ -24,7 +24,7 @@
                         <button class="btn btn-secondary" id="reset" hidden>Reset</button>
                         {{-- @dd($todayPresensi) --}}
                         <div class="col-12" style="display: flex;align-items: center;justify-content: center">
-                            @if ($todayPresensi->bukti_keluar != null)
+                            @if ($todayPresensi->bukti_keluar != null && $todayPresensi->waktu_masuk != null)
                                 <button class="btn
                             btn-primary mt-2" id="submitbtn" hidden
                                     disabled>
@@ -32,7 +32,7 @@
                                 </button>
                             @else
                                 <button class="btn btn-primary mt-2" id="submitbtn" hidden>
-                                    @if (empty($todayPresensi))
+                                    @if ($todayPresensi->waktu_masuk == null)
                                         Absen Masuk
                                     @else
                                         @if ($todayPresensi->bukti_keluar == null)

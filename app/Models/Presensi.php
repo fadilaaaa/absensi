@@ -34,4 +34,27 @@ class Presensi extends Model
 
         return $press;
     }
+    public static function getTotalHadirPerhariSelamaSeminggu()
+    {
+        return self::whereNotNull('waktu_masuk')
+            ->whereBetween('created_at', [date('Y-m-d', strtotime('-7 days')), date('Y-m-d')])
+            ->get()
+            ->groupBy(
+                fn ($pres) => $pres->created_at->format('Y-m-d')
+            )->map(function ($group) {
+                return $group->count();
+            });
+    }
+    public static function getTotalPresensiBulanIni()
+    {
+        return self::whereMonth('created_at', date('m'))
+            ->whereYear('created_at', date('Y'))
+            ->get()
+            ->groupBy(
+                fn ($pres) => $pres->petugas_id
+            )
+            ->map(function ($group) {
+                return $group->count();
+            });
+    }
 }

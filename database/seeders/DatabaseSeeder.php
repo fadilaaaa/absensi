@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 
@@ -74,20 +77,43 @@ class DatabaseSeeder extends Seeder
                 'jenis' => 'Cuti',
                 'keterangan' => 'Pulang kampung',
             ]);
-            \App\Models\Presensi::create([
+            $bulantanggal = CarbonPeriod::create(Carbon::now()->startOfMonth(), Carbon::now())->toArray();
+            foreach ($bulantanggal as $tanggal) {
+                $jadwalHari = $jadwal->hari;
+                $jadwalHari = explode('-', $jadwalHari);
+                $daysOfWeek = [1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu', 7 => 'Minggu'];
+                $jadwalHari = array_map(function ($hari) use ($daysOfWeek) {
+                    return array_search($hari, $daysOfWeek);
+                }, $jadwalHari);
+                $date = Carbon::parse($tanggal)->locale('id');
+                if ($date->dayOfWeek >= $jadwalHari[0] || $date->dayOfWeek <= $jadwalHari[1]) {
+                    $bmasuk = $faker->randomElement(['imgpres/1.jpg', null]);
+
+                    if ($bmasuk == null) {
+                        $bkeluar = null;
+                        $wkeluar = null;
+                        $wmasuk = null;
+                    } else {
+                        $wmasuk = date('H:i:s');
+                        $bkeluar = $faker->randomElement(['imgpres/1.jpg', null]);
+                        $wkeluar = $faker->randomElement([date('H:i:s'), null]);
+                    }
+                    \App\Models\Presensi::create([
+                        'petugas_id' => $user->id,
+                        'bukti_masuk' => $bmasuk,
+                        'waktu_masuk' => $wmasuk,
+                        'bukti_keluar' => $bkeluar,
+                        'waktu_keluar' => $wkeluar,
+                        'created_at' => strtotime($tanggal),
+                    ]);
+                }
+            }
+            $baseGaji = 2500000;
+            \App\Models\Gaji::create([
                 'petugas_id' => $user->id,
-                'bukti_masuk' => 'imgpres/ex.png',
-                'waktu_masuk' => date('H:i:s'),
-                'bukti_keluar' => 'imgpres/ex.png',
-                'waktu_keluar' => date('H:i:s', time() + 60 * 60 * 10),
-            ]);
-            \App\Models\Presensi::create([
-                'petugas_id' => $user->id,
-                'bukti_masuk' => 'imgpres/ex.png',
-                'waktu_masuk' => date('H:i:s'),
-                'bukti_keluar' => 'imgpres/ex.png',
-                'waktu_keluar' => date('H:i:s', time() + 60 * 60 * 10),
-                'created_at' => date("Y-m-d H:i:s", strtotime("-1 day")),
+                'gaji' => $baseGaji,
+                'potongan' => $petugas->getPotonganGajiBulanIni(),
+                'total' => $baseGaji - ($baseGaji * $petugas->getPotonganGajiBulanIni() / 100),
             ]);
             \App\Models\Pengaduan::create([
                 'petugas_id' => $user->id,
