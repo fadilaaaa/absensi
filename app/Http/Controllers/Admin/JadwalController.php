@@ -20,6 +20,13 @@ class JadwalController extends \App\Http\Controllers\Controller
         confirmDelete($title, $text);
         return view('admin.jadwal', compact('petugas', 'jadwal'));
     }
+    public function viewPetugas(Request $request)
+    {
+        $jadwal = \App\Models\Jadwal::where('petugas_id', Auth::user()->petugas->id)
+            ->with('petugas')->get();
+        // dd(Auth::user()->petugas->id);
+        return view('petugas.jadwal', compact('jadwal'));
+    }
     public function store(Request $request)
     {
         $request->validate([

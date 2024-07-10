@@ -26,15 +26,31 @@ class GajiController extends \App\Http\Controllers\Controller
             ->whereYear('created_at', $tahun)
             ->get();
 
-        // dd($gajis, $bulan, $tahun);
-        // dd($presensiBulanIni);
-        //check if app json req
         if ($request->wantsJson()) {
             return response()->json([
                 'data' => $gajis
             ], 200);
         }
         return view('admin.gaji', compact('gajis', 'bulan', 'tahun', 'presensiBulanIni'));
+    }
+    public function viewPetugas(Request $request)
+    {
+        $bulan = ($request->get('bulan'))
+            ? $request->get('bulan') :
+            Carbon::now()->locale('id')->getTranslatedMonthName();
+        $tahun = ($request->get('tahun'))
+            ? $request->get('tahun') : Carbon::now()->year;
+        $gaji = Gaji::where('petugas_id', auth()->user()->petugas->id);
+        if ($request->get('bulan')) {
+            $bulan = $this->bulan2int($request->get('bulan'));
+            $gaji = $gaji->whereMonth('created_at', $bulan);
+        }
+        if ($request->get('tahun')) {
+            $tahun = $request->get('tahun');
+            $gaji = $gaji->whereYear('created_at', $tahun);
+        }
+        $gaji = $gaji->get()->sortByDesc('created_at');
+        return view('petugas.gaji', compact('gaji', 'bulan', 'tahun'));
     }
     public function regenerate()
     {
@@ -100,7 +116,7 @@ class GajiController extends \App\Http\Controllers\Controller
     }
     public function export(Request $request, $id)
     {
-        // dd($request->all());
+
         $uuid = ($request->post('uuid')) ? $request->post('uuid') : '';
         $bulan = ($request->get('bulan'))
             ? $request->get('bulan') :

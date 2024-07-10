@@ -70,7 +70,8 @@ class DashboardController extends Controller
                 'presentasiKehadiran'
             ));
         } else {
-            return view("petugas.dashboard");
+            $petugas = Petugas::where('user_id', Auth::user()->id)->first();
+            return view("petugas.dashboard", compact('petugas'));
         }
     }
     public function genPres()

@@ -18,53 +18,20 @@
                                 <th>Lokasi</th>
                                 <th>Waktu</th>
                                 <th>Hari</th>
-                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Ahmad Fauzi</td>
-                                <td>3201123456789012</td>
-                                <td>Januari-Maret</td>
-                                <td>Dolok Sabggul</td>
-                                <td>08.00 - 15.00</td>
-                                <td>Senin - Sabtu</td>
-                                <td class="action-column">
-                                    <button data-toggle="modal" data-target="#exampleModal" data-nama="Ahmad Fauzi"
-                                        data-nik="3201123456789012" data-periode="Januari-Maret" data-alamat="Dolok Sabggul"
-                                        data-waktu="08.00 - 15.00" data-hari="Senin - Sabtu" class="btn btn-sm btn-primary">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <a data-confirm-delete="true" href="{{ url('admin/jadwal/99') }}"
-                                        class="btn btn-sm btn-danger">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            @for ($i = 2; $i <= 20; $i++)
+                            @foreach ($jadwal as $item)
                                 <tr>
-                                    <td>{{ $i }}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="action-column">
-                                        <button data-toggle="modal" data-target="#exampleModal" data-nama="Ahmad Fauzi"
-                                            data-nik="3201123456789012" data-periode="Januari-Maret"
-                                            data-alamat="Dolok Sabggul" data-waktu="08.00 - 15.00" data-hari="Senin - Sabtu"
-                                            class="btn btn-sm btn-primary">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <a data-confirm-delete="true" href="{{ url('admin/jadwal/99') }}"
-                                            class="btn btn-sm btn-danger">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    </td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->petugas->name }}</td>
+                                    <td>{{ $item->petugas->nik }}</td>
+                                    <td>{{ $item->periode }}</td>
+                                    <td>{{ $item->lokasi }}</td>
+                                    <td>{{ $item->waktu }}</td>
+                                    <td>{{ $item->hari }}</td>
                                 </tr>
-                            @endfor
+                            @endforeach
                         </tbody>
                     </table>
 
@@ -168,13 +135,13 @@
         $(document).ready(function() {
             $('#dataTable_length').parent().hide()
             $('#dataTable_filter').parent().addClass('col-md-12')
-            $('#dataTable_info').parent().parent().prepend(`
-            <div class="col-12" style="display: flex;justify-content: right">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Export Excel
-                </button>
-            </div>
-            `)
+            // $('#dataTable_info').parent().parent().prepend(`
+        // <div class="col-12" style="display: flex;justify-content: right">
+        //     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        //         Export Excel
+        //     </button>
+        // </div>
+        // `)
         });
     </script>
 @endpush

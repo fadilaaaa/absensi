@@ -6,7 +6,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Illuminate\Contracts\View\View;
 
-class SlipGajiExport implements FromView, ShouldAutoSize
+class PengaduanExport implements FromView, ShouldAutoSize
 {
     protected $data;
     public function __construct($data)
@@ -15,6 +15,8 @@ class SlipGajiExport implements FromView, ShouldAutoSize
     }
     public function view(): View
     {
-        return view('exports.slipgaji');
+        return view('exports.pengaduan', [
+            'data' => $this->data
+        ]);
     }
 }

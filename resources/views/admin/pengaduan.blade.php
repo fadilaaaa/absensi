@@ -68,9 +68,9 @@
             // $('#dataTable_filter').parent().addClass('col-md-12')
             $('#dataTable_info').parent().parent().prepend(`
             <div class="col-12" style="display: flex;justify-content: right">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                <a href="{{ url('admin/pengaduan/export') }}" class="btn btn-primary" >
                     Export Excel
-                </button>
+                </a>
             </div>
             `)
         });

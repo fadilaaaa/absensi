@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 // use App\Exports\PengaduanExport;
 use App\Models\Pengaduan;
+use App\Exports\PengaduanExport;
 
 class PengaduanController extends \App\Http\Controllers\Controller
 {
@@ -51,9 +52,10 @@ class PengaduanController extends \App\Http\Controllers\Controller
             return redirect('petugas/pengaduan')->with('error', 'Data Added Failed');
         }
     }
-    // public function export()
-    // {
-    //     $time = date('Y-m-d H:i:s');
-    //     return Excel::download(new PengaduanExport, 'pengaduan_' . $time . '.xlsx');
-    // }
+    public function export()
+    {
+        $data = Pengaduan::orderByDesc('created_at')->get();
+        $time = date('Y-m-d H:i:s');
+        return Excel::download(new PengaduanExport($data), 'pengaduan_' . $time . '.xlsx');
+    }
 }

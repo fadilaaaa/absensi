@@ -8,7 +8,7 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-success shadow h-100 py-2">
@@ -72,7 +72,7 @@
             </div>
 
 
-        </div>
+        </div> --}}
         <div class="row mt-2">
             <div class="card" style="width: 100%">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -97,6 +97,12 @@
                             <p>:</p>
                         </div>
                         <div class="col-8">
+                            <p>{{ $petugas->name }}</p>
+                            <p>{{ $petugas->nik }}</p>
+                            <p>{{ $petugas->tgl_lahir }}</p>
+                            <p>{{ $petugas->alamat }}</p>
+                            <p>{{ $petugas->email }}</p>
+                            <p>{{ $petugas->no_telp }}</p>
 
                         </div>
                     </div>

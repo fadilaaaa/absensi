@@ -102,8 +102,8 @@
     <div id="qr" hidden style="display: none,position:fixed;top:50vh;left:50vw" tabindex="-1"></div>
     <script
         src="
-                                                                                                                                                                                                        https://cdn.jsdelivr.net/npm/easyqrcodejs@4.6.1/dist/easy.qrcode.min.js
-                                                                                                                                                                                                        ">
+                                                                                                                                                                                                            https://cdn.jsdelivr.net/npm/easyqrcodejs@4.6.1/dist/easy.qrcode.min.js
+                                                                                                                                                                                                            ">
     </script>
     <script>
         // Tunggu hingga DOM siap
@@ -217,13 +217,13 @@
         $(document).ready(function() {
             $('#dataTable_length').parent().hide()
             $('#dataTable_filter').parent().addClass('col-md-12')
-            $('#dataTable_info').parent().parent().prepend(`
-            <div class="col-12" style="display: flex;justify-content: right">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Export Excel
-                </button>
-            </div>
-            `)
+            // $('#dataTable_info').parent().parent().prepend(`
+        // <div class="col-12" style="display: flex;justify-content: right">
+        //     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        //         Export Excel
+        //     </button>
+        // </div>
+        // `)
             const btnPrint = document.getElementById('print');
             btnPrint.addEventListener('click', function(e) {
                 e.preventDefault();
