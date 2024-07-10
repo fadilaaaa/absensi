@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
             'user_id' => 1,
         ]);
-        for ($i = 2; $i < 11; $i++) {
+        for ($i = 2; $i < 100; $i++) {
             if ($i == 2) {
                 $userName = 'user';
             } else {
@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
                 'jenis' => 'Cuti',
                 'keterangan' => 'Pulang kampung',
             ]);
-            $bulantanggal = CarbonPeriod::create(Carbon::now()->startOfMonth(), Carbon::now())->toArray();
+            $bulantanggal = CarbonPeriod::create(Carbon::now()->subMonth(3)->startOfMonth(), Carbon::now())->toArray();
             foreach ($bulantanggal as $tanggal) {
                 $jadwalHari = $jadwal->hari;
                 $jadwalHari = explode('-', $jadwalHari);
