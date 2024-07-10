@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
                 'jenis' => 'Cuti',
                 'keterangan' => 'Pulang kampung',
             ]);
-            $bulantanggal = CarbonPeriod::create(Carbon::now()->subMonth(3)->startOfMonth(), Carbon::now())->toArray();
+            $bulantanggal = CarbonPeriod::create(Carbon::now()->subMonths(3)->startOfMonth(), Carbon::now())->toArray();
             foreach ($bulantanggal as $tanggal) {
                 $jadwalHari = $jadwal->hari;
                 $jadwalHari = explode('-', $jadwalHari);
