@@ -145,96 +145,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>2024-06-20</td>
-                                        <td>Ahmad Yusuf</td>
-                                        <td>1234567890</td>
-                                        <td>Pagi</td>
-                                        <td>07:00 - 15:00</td>
-                                        <td>Hadir</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>2024-06-20</td>
-                                        <td>Siti Rahma</td>
-                                        <td>2345678901</td>
-                                        <td>Siang</td>
-                                        <td>15:00 - 23:00</td>
-                                        <td>Hadir</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>2024-06-21</td>
-                                        <td>Wawan Kurniawan</td>
-                                        <td>3456789012</td>
-                                        <td>Malam</td>
-                                        <td>23:00 - 07:00</td>
-                                        <td>Tidak Hadir</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>2024-06-21</td>
-                                        <td>Dewi Sartika</td>
-                                        <td>4567890123</td>
-                                        <td>Pagi</td>
-                                        <td>07:00 - 15:00</td>
-                                        <td>Hadir</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>2024-06-22</td>
-                                        <td>Andi Saputra</td>
-                                        <td>5678901234</td>
-                                        <td>Siang</td>
-                                        <td>15:00 - 23:00</td>
-                                        <td>Hadir</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>2024-06-22</td>
-                                        <td>Nina Puspita</td>
-                                        <td>6789012345</td>
-                                        <td>Malam</td>
-                                        <td>23:00 - 07:00</td>
-                                        <td>Hadir</td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>2024-06-23</td>
-                                        <td>Budi Santoso</td>
-                                        <td>7890123456</td>
-                                        <td>Pagi</td>
-                                        <td>07:00 - 15:00</td>
-                                        <td>Tidak Hadir</td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td>2024-06-23</td>
-                                        <td>Maya Sari</td>
-                                        <td>8901234567</td>
-                                        <td>Siang</td>
-                                        <td>15:00 - 23:00</td>
-                                        <td>Hadir</td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td>2024-06-24</td>
-                                        <td>Joko Prasetyo</td>
-                                        <td>9012345678</td>
-                                        <td>Malam</td>
-                                        <td>23:00 - 07:00</td>
-                                        <td>Hadir</td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td>2024-06-24</td>
-                                        <td>Lina Rahmawati</td>
-                                        <td>0123456789</td>
-                                        <td>Pagi</td>
-                                        <td>07:00 - 15:00</td>
-                                        <td>Hadir</td>
-                                    </tr>
+
+                                    @foreach ($presensiHariIni as $item)
+                                        {{-- @dd($item->petugas->jadwal) --}}
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ date('Y-m-d', strtotime($item->created_at)) }}</td>
+                                            <td>{{ $item->petugas->name }}</td>
+                                            <td>{{ $item->petugas->nik }}</td>
+                                            <td>{{ $item->petugas->jadwal[0]->waktu }}</td>
+                                            <td>{{ date('H:i', strtotime($item->waktu_masuk)) }}</td>
+                                            <td>{{ date('H:i', strtotime($item->waktu_keluar)) }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

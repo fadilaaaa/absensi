@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
             'user_id' => 1,
         ]);
-        for ($i = 2; $i < 100; $i++) {
+        for ($i = 2; $i < 20; $i++) {
             if ($i == 2) {
                 $userName = 'user';
             } else {

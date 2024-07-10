@@ -46,6 +46,7 @@ class DashboardController extends Controller
                 )->map(function ($group) {
                     return $group->count();
                 });
+            $presensiHariIni = Presensi::whereDate('created_at', Carbon::now())->get();
             // dd($totalHadirPerhariSelamaSeminggu);
             $presentasiKehadiran = $totalHadirHariIni / $totalPetugas * 100;
 
@@ -67,6 +68,7 @@ class DashboardController extends Controller
                 'totalPetugas',
                 'totalHadirHariIni',
                 'totalHadirPerhariSelamaSeminggu',
+                'presensiHariIni',
                 'presentasiKehadiran'
             ));
         } else {
