@@ -26,6 +26,24 @@
     {{-- <link rel="stylesheet" href="{{ url('vendor/bootstrap/scss/bootstrap.scss') }}"> --}}
     <!-- Custom styles for this template-->
     <link href="{{ url('css/sb-admin-2.css') }}" rel="stylesheet">
+    <style>
+        .navbar-default {
+            position: fixed;
+            width: 100%;
+            margin: 0 0 405px 0;
+        }
+
+        @media(min-width:768px) {
+            #page-wrapper {
+                position: inherit;
+                margin: 0 0 0 250px;
+                padding: 52px 0 0 30px;
+                /* for fixed menu*/
+                /*padding: 0 30px;*/
+                border-left: 1px solid #e7e7e7;
+            }
+        }
+    </style>
     @include('sweetalert::alert')
     @stack('styles')
 </head>
@@ -147,6 +165,25 @@
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ url('/vendor/selectize-bootstrap4/dist/js/selectize.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const mediaQuery = window.matchMedia('(max-width: 768px)');
+        mediaQuery.addListener(handleDeviceChange);
+
+        function handleDeviceChange(e) {
+            if (e.matches) {
+                $('#page_top').addClass('sidebar_toggled')
+                $('#accordionSidebar').addClass('toggled')
+                $('#accordionSidebar').css('position', '')
+                $('#content-wrapper').css('margin-left', '')
+            } else {
+                $('#accordionSidebar').css('position', 'fixed')
+                $('#content-wrapper').css('margin-left', '14rem')
+                $('#page_top').removeClass('sidebar_toggled')
+                $('#accordionSidebar').removeClass('toggled')
+            }
+        }
+        handleDeviceChange(mediaQuery)
+    </script>
     @stack('scripts')
 </body>
 

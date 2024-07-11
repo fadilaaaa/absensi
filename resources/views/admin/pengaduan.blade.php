@@ -26,6 +26,9 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($pengaduan as $item)
+                                        @if ($item->petugas == null)
+                                            @continue
+                                        @endif
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->petugas->name }}</td>

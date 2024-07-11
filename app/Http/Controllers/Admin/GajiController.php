@@ -33,6 +33,28 @@ class GajiController extends \App\Http\Controllers\Controller
         }
         return view('admin.gaji', compact('gajis', 'bulan', 'tahun', 'presensiBulanIni'));
     }
+    public function report(Request $request)
+    {
+        $bulan = $request->get('bulan');
+        $tahun = $request->get('tahun');
+        $bulanint = $this->bulan2int($bulan);
+        $gajis = Gaji::whereMonth('created_at', $bulanint)
+            ->whereYear('created_at', $tahun)
+            ->get();
+        $timestamp = Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y');
+        $fileName = 'laporan-gaji_'  . time() . 'pdf';
+
+        // return view('exports.reportGaji', compact('gajis', 'bulan', 'tahun', 'timestamp'));
+        $pdf = PDF::loadView('exports.reportGaji', [
+            'gajis' => $gajis,
+            'bulan' => $bulan,
+            'tahun' => $tahun,
+            'timestamp' => $timestamp
+        ]);
+        $content = $pdf->download()->getOriginalContent();
+        Storage::disk('public')->put('reportGaji/' . $fileName, $content);
+        return $pdf->stream();
+    }
     public function viewPetugas(Request $request)
     {
         $bulan = ($request->get('bulan'))

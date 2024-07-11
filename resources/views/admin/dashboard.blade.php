@@ -153,7 +153,7 @@
                                             <td>{{ date('Y-m-d', strtotime($item->created_at)) }}</td>
                                             <td>{{ $item->petugas->name }}</td>
                                             <td>{{ $item->petugas->nik }}</td>
-                                            <td>{{ $item->petugas->jadwal[0]->waktu }}</td>
+                                            <td>{{ $item->petugas->jadwal[0]->waktu ?? '' }}</td>
                                             <td>{{ date('H:i', strtotime($item->waktu_masuk)) }}</td>
                                             <td>{{ date('H:i', strtotime($item->waktu_keluar)) }}</td>
                                         </tr>

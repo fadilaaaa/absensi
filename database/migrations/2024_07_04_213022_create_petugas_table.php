@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('no_telp');
             $table->foreignId('user_id')->constrained('users');
             $table->boolean('is_admin')->default(false);
+            $table->dateTime('deleted_at')->nullable();
             $table->timestamps();
         });
     }

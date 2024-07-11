@@ -4,62 +4,63 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-12 col-lg-11">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Data Gaji Petugas</h6>
-                    </div>
-                    {{-- @dd($gajis) --}}
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
+        <div class="col-xl-12 col-lg-11">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Data Gaji Petugas</h6>
+                </div>
+                {{-- @dd($gajis) --}}
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>NIK</th>
+                                    <th>Gaji</th>
+                                    <th>Potongan</th>
+                                    <th>Total Gaji</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($gajis as $item)
+                                    @if ($item->petugas == null)
+                                        @continue
+                                    @endif
                                     <tr>
-                                        <th>No</th>
-                                        <th>Nama</th>
-                                        <th>NIK</th>
-                                        <th>Gaji</th>
-                                        <th>Potongan</th>
-                                        <th>Total Gaji</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($gajis as $item)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->petugas->name }}</td>
-                                            <td>{{ $item->petugas->nik }}</td>
-                                            <td style="white-space: nowrap">Rp.
-                                                {{ number_format($item->gaji, 0, ',', '.') }}</td>
-                                            <td class="text-center">{{ $item->potongan . '%' }}</td>
-                                            <td style="white-space: nowrap">Rp.
-                                                {{ number_format($item->total, 0, ',', '.') }}</td>
-                                            <td class="action-column" style="white-space: nowrap">
-                                                {{-- <button data-confirm-izin="true" class="btn btn-sm btn-primary">
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->petugas->name }}</td>
+                                        <td>{{ $item->petugas->nik }}</td>
+                                        <td style="white-space: nowrap">Rp.
+                                            {{ number_format($item->gaji, 0, ',', '.') }}</td>
+                                        <td class="text-center">{{ $item->potongan . '%' }}</td>
+                                        <td style="white-space: nowrap">Rp.
+                                            {{ number_format($item->total, 0, ',', '.') }}</td>
+                                        <td class="action-column" style="white-space: nowrap">
+                                            {{-- <button data-confirm-izin="true" class="btn btn-sm btn-primary">
                                                     <i class="fas fa-signal"></i>
                                                 </button> --}}
-                                                <button data-toggle="modal" data-target="#detailGaji"
-                                                    data-id="{{ $item->id }}" class="btn btn-sm btn-primary">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <a id="print"
-                                                    data-href="{{ url('admin/gaji/' . $item->id . '/export?bulan=' . $bulan . '&tahun=' . $tahun) }}"
-                                                    class="btn btn-sm btn-secondary">
-                                                    <i class="fas fa-print"></i>
-                                                </a>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                            <button data-toggle="modal" data-target="#detailGaji"
+                                                data-id="{{ $item->id }}" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <a id="print"
+                                                data-href="{{ url('admin/gaji/' . $item->id . '/export?bulan=' . $bulan . '&tahun=' . $tahun) }}"
+                                                class="btn btn-sm btn-secondary">
+                                                <i class="fas fa-print"></i>
+                                            </a>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    </div>
     <!-- Modal -->
     <div class="modal fade" id="detailGaji" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -75,7 +76,7 @@
                     <div class="col-3" style="white-space: nowrap;">
                         <p>Bulan/Tahun</p>
                         <p>Total Hadir</p>
-                        <p>Total Absent</p>
+                        <p>Total Absen</p>
                         <p>Total Gaji</p>
                         <p>Total Potongan</p>
                     </div>
@@ -100,11 +101,7 @@
 @endsection
 @push('scripts')
     <div id="qr" hidden style="display: none,position:fixed;top:50vh;left:50vw" tabindex="-1"></div>
-    <script
-        src="
-                                                                                                                                                                                                            https://cdn.jsdelivr.net/npm/easyqrcodejs@4.6.1/dist/easy.qrcode.min.js
-                                                                                                                                                                                                            ">
-    </script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
     <script>
         // Tunggu hingga DOM siap
         document.addEventListener('DOMContentLoaded', function() {
@@ -186,14 +183,13 @@
         </div>
     </label>`);
             dataFilterBox.append(
-                `<a href="{{ url('admin/gaji/regenerate') }}" class="btn btn-primary" style="margin-left: 1rem"><i class="fas fa-sync-alt"></i> Refresh</a>`
+                `<div><a href="{{ url('admin/gaji/regenerate') }}" class="btn btn-primary" style="margin-left: 1rem"><i class="fas fa-sync-alt"></i> Refresh</a>
+                <a href="{{ url('admin/gaji/export/?bulan=' . $bulan . '&tahun=' . $tahun) }}" class="btn btn-secondary" style="margin-left: 1rem"><i class="fas fa-print"></i>  Cetak</a></div>`
             );
+
             // dataFilterBox.append(
             //     `<button class="btn btn-info" style="margin-left: 1rem"><i class="fas fa-plus"></i>  Tambah</button>`
             // );
-            dataFilterBox.append(
-                `<button class="btn btn-secondary" style="margin-left: 1rem"><i class="fas fa-print"></i>  Cetak</button>`
-            );
             dataFilterBox.css({
                 "display": "flex",
                 "justify-content": "space-between",

@@ -2,6 +2,20 @@
 
 @section('title', 'Dashboard')
 
+@push('styles')
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="container-fluid">
         <!-- Page Heading -->
@@ -79,33 +93,39 @@
                     <h6 class="m-0 font-weight-bold text-primary">Data Petugas</h6>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-2" style="white-space: nowrap;">
-                            <p>Nama</p>
-                            <p>NIK</p>
-                            <p>Tanggal Lahir</p>
-                            <p>Alamat</p>
-                            <p>Emil</p>
-                            <p>No. Telepon</p>
-                        </div>
-                        <div class="col-1">
-                            <p>:</p>
-                            <p>:</p>
-                            <p>:</p>
-                            <p>:</p>
-                            <p>:</p>
-                            <p>:</p>
-                        </div>
-                        <div class="col-8">
-                            <p>{{ $petugas->name }}</p>
-                            <p>{{ $petugas->nik }}</p>
-                            <p>{{ $petugas->tgl_lahir }}</p>
-                            <p>{{ $petugas->alamat }}</p>
-                            <p>{{ $petugas->email }}</p>
-                            <p>{{ $petugas->no_telp }}</p>
+                    <table>
+                        <tr>
+                            <td>Nama</td>
+                            <td>:</td>
+                            <td>{{ $petugas->name }}</td>
+                        </tr>
+                        <tr>
+                            <td>NIK</td>
+                            <td>:</td>
+                            <td>{{ $petugas->nik }}</td>
+                        </tr>
+                        <tr>
+                            <td>Tanggal Lahir</td>
+                            <td>:</td>
+                            <td>{{ $petugas->tgl_lahir }}</td>
+                        </tr>
+                        <tr>
+                            <td>Alamat</td>
+                            <td>:</td>
+                            <td>{{ $petugas->alamat }}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>:</td>
+                            <td>{{ $petugas->email }}</td>
+                        </tr>
+                        <tr>
+                            <td>No. Telepon</td>
+                            <td>:</td>
+                            <td>{{ $petugas->no_telp }}</td>
+                        </tr>
 
-                        </div>
-                    </div>
+                    </table>
                 </div>
             </div>
         </div>

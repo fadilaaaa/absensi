@@ -59,6 +59,37 @@ class PetugasController extends \App\Http\Controllers\Controller
             return response()->json(['status' => 'error', 'message' => 'Data Added Failed'], 500);
         }
     }
+    public function register(Request $request)
+    {
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+        DB::beginTransaction();
+        try {
+            $user = \App\Models\User::create([
+                'username' => $request->username,
+                'password' => bcrypt($request->password),
+                'role' => 'admin',
+            ]);
+            $petugas = \App\Models\Petugas::create([
+                'name' => 'Admin',
+                'nik' =>  rand(1000000000, 9999999999),
+                'email' => $request->email,
+                'alamat' => 'generatedAlamat',
+                'tgl_lahir' => '1999-09-09',
+                'no_telp' => '081234567890',
+                'user_id' => $user->id,
+                'is_admin' => true,
+            ]);
+            DB::commit();
+            return back()->with('success', 'Registed Successfully');
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e);
+            return back()->with('error', 'Registration Failed');
+        }
+    }
     public function store(Request $request)
     {
         $request->validate([

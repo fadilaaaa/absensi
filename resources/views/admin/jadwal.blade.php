@@ -73,6 +73,9 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($jadwal as $item)
+                                        @if ($item->petugas == null)
+                                            @continue
+                                        @endif
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->petugas->name }}</td>

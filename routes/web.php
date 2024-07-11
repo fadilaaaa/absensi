@@ -21,12 +21,15 @@ Route::get('/login', function () {
     return view('login');
 });
 Route::post('/login', [AuthController::class, 'actionLogin'])->name('login');
-
+Route::get('/register-admin', function () {
+    return view('register');
+});
+Route::post('/register-admin', [\App\Http\Controllers\Admin\PetugasController::class, 'register']);
 Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [AuthController::class, 'actionLogout']);
 });
 
-Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index']);
+Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->middleware('auth');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
     Route::get('/akun-petugas', [\App\Http\Controllers\Admin\PetugasController::class, 'index']);
     Route::post('/akun-petugas', [\App\Http\Controllers\Admin\PetugasController::class, 'store']);
@@ -49,6 +52,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
     Route::get('presensi/periode/{year}/{periode}/export', [\App\Http\Controllers\Admin\PresensiController::class, 'export']);
     Route::get('/gaji', [\App\Http\Controllers\Admin\GajiController::class, 'index']);
     Route::get('/gaji/regenerate', [\App\Http\Controllers\Admin\GajiController::class, 'regenerate']);
+    Route::get('/gaji/export', [\App\Http\Controllers\Admin\GajiController::class, 'report']);
     Route::get('/gaji/{id}', [\App\Http\Controllers\Admin\GajiController::class, 'detail']);
     Route::post('/gaji/{id}/export', [\App\Http\Controllers\Admin\GajiController::class, 'export']);
     Route::get('/pengaduan', [\App\Http\Controllers\Admin\PengaduanController::class, 'index']);

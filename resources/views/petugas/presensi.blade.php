@@ -16,7 +16,16 @@
                     <div class="card-body"
                         style="display: flex;
                     justify-content: center;align-items: center">
-                        <div id="cam" style="width: 280px;
+                        <img id="imgres" hidden
+                            style="
+                        max-width: 240px;
+                        max-height: 280px;
+                        width: 100%;
+                        height: auto;
+                        object-fit: cover;
+                        "
+                            class="img-fluid">
+                        <div id="cam" style="
                         border:"></div>
                     </div>
                     <div class="mb-2 row" style="display: flex;align-items: center;justify-content: center">
@@ -24,7 +33,7 @@
                         <button class="btn btn-secondary" id="reset" hidden>Reset</button>
                         {{-- @dd($todayPresensi) --}}
                         <div class="col-12" style="display: flex;align-items: center;justify-content: center">
-                            @if ($todayPresensi->bukti_keluar != null && $todayPresensi->waktu_masuk != null)
+                            @if ($todayPresensi?->bukti_keluar != null && $todayPresensi?->waktu_masuk != null)
                                 <button class="btn
                             btn-primary mt-2" id="submitbtn" hidden
                                     disabled>
@@ -32,10 +41,10 @@
                                 </button>
                             @else
                                 <button class="btn btn-primary mt-2" id="submitbtn" hidden>
-                                    @if ($todayPresensi->waktu_masuk == null)
+                                    @if ($todayPresensi?->waktu_masuk == null)
                                         Absen Masuk
                                     @else
-                                        @if ($todayPresensi->bukti_keluar == null)
+                                        @if ($todayPresensi?->bukti_keluar == null)
                                             Absen Keluar
                                         @endif
                                     @endif
@@ -59,8 +68,8 @@
     <script>
         function initcam() {
             Webcam.set({
-                width: 280,
-                height: 240,
+                width: 240,
+                height: 280,
                 image_format: 'jpeg',
                 jpeg_quality: 90
             });
