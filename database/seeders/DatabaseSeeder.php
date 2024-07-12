@@ -142,7 +142,9 @@ class DatabaseSeeder extends Seeder
                         'created_at' => strtotime($tanggal),
                     ]);
                 }
-                if ($date == $date->endOfMonth()) {
+                $curr = $date->toDateString();
+                $endmon = $date->endOfMonth()->toDateString();
+                if ($curr == $endmon) {
                     $baseGaji = 2500000;
                     \App\Models\Gaji::create([
                         'petugas_id' => $user->id,
