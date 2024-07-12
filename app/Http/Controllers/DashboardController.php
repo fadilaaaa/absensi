@@ -49,7 +49,7 @@ class DashboardController extends Controller
             $presensiHariIni = Presensi::whereDate('created_at', Carbon::now())->get();
             // dd($totalHadirPerhariSelamaSeminggu);
             $presentasiKehadiran = $totalHadirHariIni / $totalPetugas * 100;
-
+            $message = [];
             $AbsenKemarin = Presensi::whereDate('created_at', Carbon::yesterday())
                 ->whereNull('waktu_masuk')
                 ->count();
