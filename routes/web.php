@@ -50,11 +50,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
     Route::get('/presensi', [\App\Http\Controllers\Admin\PresensiController::class, 'index']);
     Route::get('presensi/periode/{year}/{periode}', [\App\Http\Controllers\Admin\PresensiController::class, 'periode']);
     Route::get('presensi/periode/{year}/{periode}/export', [\App\Http\Controllers\Admin\PresensiController::class, 'export']);
+
     Route::get('/gaji', [\App\Http\Controllers\Admin\GajiController::class, 'index']);
     Route::get('/gaji/regenerate', [\App\Http\Controllers\Admin\GajiController::class, 'regenerate']);
     Route::get('/gaji/export', [\App\Http\Controllers\Admin\GajiController::class, 'report']);
+    Route::get('/gaji/exportExcel', [\App\Http\Controllers\Admin\GajiController::class, 'exportExcel']);
     Route::get('/gaji/{id}', [\App\Http\Controllers\Admin\GajiController::class, 'detail']);
     Route::post('/gaji/{id}/export', [\App\Http\Controllers\Admin\GajiController::class, 'export']);
+
     Route::get('/pengaduan', [\App\Http\Controllers\Admin\PengaduanController::class, 'index']);
     Route::get('/pengaduan/export', [\App\Http\Controllers\Admin\PengaduanController::class, 'export']);
 });
@@ -65,7 +68,10 @@ Route::group(['prefix' => 'petugas', 'middleware' => ['auth', 'role:user']], fun
     Route::get('/presensi', [\App\Http\Controllers\Petugas\PresensiController::class, 'index']);
     Route::post('/presensi', [\App\Http\Controllers\Petugas\PresensiController::class, 'absen']);
     Route::get('/presensi/riwayat/{id}', [\App\Http\Controllers\Petugas\PresensiController::class, 'riwayat']);
+    Route::get('/presensi/riwayat/{id}/export', [\App\Http\Controllers\Petugas\PresensiController::class, 'export']);
+
     Route::get('/gaji', [\App\Http\Controllers\Admin\GajiController::class, 'viewPetugas']);
+    Route::get('/gaji/{id}/export', [\App\Http\Controllers\Admin\GajiController::class, 'exportPetugas']);
     Route::get('/pengaduan', function () {
         return view('petugas.pengaduan');
     });

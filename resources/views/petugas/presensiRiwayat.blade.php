@@ -54,39 +54,56 @@
                 "pageLength": 5,
                 "pagingType": "simple_numbers",
             });
+            const arrayMonths = [
+                'Januari',
+                'Februari',
+                'Maret',
+                'April',
+                'Mei',
+                'Juni',
+                'Juli',
+                'Agustus',
+                'September',
+                'Oktober',
+                'November',
+                'Desember'
+            ]
+            const StringOptionMonths = arrayMonths.map((item) => {
+                return `<option ${item==="{{ $bulan }}"?'selected':''} value="${item}">${item}</option>`
+            }).join('')
+            const mapYears = [
+                2024,
+                2023,
+                2022,
+            ]
+            const StringOptionYears = mapYears.map((item) => {
+                return `<option ${item=={{ $tahun }}?'selected':''} value="${item}">${item}</option>`
+            }).join('')
             const dataFilterBox = $('#dataTable_filter');
             dataFilterBox.prepend(`<label style="display: flex;margin-bottom: 0.5rem;align-items: center;">Filter:
-            <div class="input-group mx-1">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Bulan</label>
-                </div>
-                <select class="custom-select" id="inputGroupSelect01">
-                    <option selected>Pilih</option>
-                    <option value="Januari">Januari</option>
-                    <option value="Februari">Februari</option>
-                    <option value="Maret">Maret</option>
-                    <option value="April">April</option>
-                    <option value="Mei">Mei</option>
-                    <option value="Juni">Juni</option>
-                    <option value="Juli">Juli</option>
-                    <option value="Agustus">Agustus</option>
-                    <option value="September">September</option>
-                    <option value="Oktober">Oktober</option>
-                    <option value="November">November</option>
-                    <option value="Desember">Desember</option>
-                </select>
+        <div class="input-group mx-1">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Bulan</label>
             </div>
-            <div class="input-group mx-1">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Tahun</label>
-                </div>
-                <select class="custom-select" id="inputGroupSelect01">
-                    <option selected>Pilih</option>
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                </select>
+            <select class="custom-select" id="bulanFil" value="{{ $bulan }}">
+                ${StringOptionMonths}
+            </select>
+        </div>
+        <div class="input-group mx-1">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Tahun</label>
             </div>
-        </label>`);
+            <select class="custom-select" id="tahunFil" value="{{ $tahun }}">
+                ${StringOptionYears}
+            </select>
+        </div>
+    </label>`);
+            $('#bulanFil, #tahunFil').change(() => {
+                const bulan = $('#bulanFil').val();
+                const tahun = $('#tahunFil').val();
+                const uri = window.location.href.split('?')[0];
+                window.location.href = `${uri}?bulan=${bulan}&tahun=${tahun}`;
+            })
             dataFilterBox.css({
                 "display": "flex",
                 "justify-content": "space-between",
@@ -96,13 +113,15 @@
     </script>
     <script>
         $(document).ready(function() {
+            const bulan = $('#bulanFil').val();
+            const tahun = $('#tahunFil').val();
             $('#dataTable_length').parent().hide()
             $('#dataTable_filter').parent().addClass('col-md-12')
             $('#dataTable_info').parent().parent().prepend(`
             <div class="col-12" style="display: flex;justify-content: right">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                <a href="{{ url('petugas/presensi/riwayat/' . Auth::user()->petugas->id . '/export') }}" class="btn btn-primary">
                     Export Excel
-                </button>
+                </a>
             </div>
             `)
         });

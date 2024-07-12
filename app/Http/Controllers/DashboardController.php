@@ -56,12 +56,7 @@ class DashboardController extends Controller
             if ($AbsenKemarin < 1) {
                 $re = $this->genPres();
                 if ($re['status'] == 'success') {
-                    return view("admin.dashboard", compact(
-                        'totalPetugas',
-                        'totalHadirHariIni',
-                        'totalHadirPerhariSelamaSeminggu',
-                        'presentasiKehadiran'
-                    ))->with('success', 'Presensi berhasil digenerate');
+                    $message = ['success', 'Presensi berhasil di generate'];
                 }
             }
             return view("admin.dashboard", compact(
@@ -70,7 +65,7 @@ class DashboardController extends Controller
                 'totalHadirPerhariSelamaSeminggu',
                 'presensiHariIni',
                 'presentasiKehadiran'
-            ));
+            ))->with(...$message);
         } else {
             $petugas = Petugas::where('user_id', Auth::user()->id)->first();
             return view("petugas.dashboard", compact('petugas'));

@@ -19,7 +19,7 @@ class PetugasController extends \App\Http\Controllers\Controller
         confirmDelete($title, $text);
 
 
-        $petugas = Petugas::where('is_admin', 0)->with('user')->get();
+        $petugas = Petugas::where('is_admin', 0)->with('user')->get()->sortByDesc('created_at');
         // dd($petugas);
         return view('admin.akunPetugas', compact('petugas'));
     }
@@ -102,23 +102,27 @@ class PetugasController extends \App\Http\Controllers\Controller
             'no_telp' => 'required',
             'password' => 'required',
         ]);
+        try {
+            DB::transaction(function () use ($request) {
+                $user = \App\Models\User::create([
+                    'username' => $request->username,
+                    'password' => bcrypt($request->password),
+                ]);
 
-        DB::transaction(function () use ($request) {
-            $user = \App\Models\User::create([
-                'username' => $request->username,
-                'password' => bcrypt($request->password),
-            ]);
-
-            $petugas = \App\Models\Petugas::create([
-                'name' => $request->nama,
-                'nik' => $request->nik,
-                'email' => $request->email,
-                'alamat' => $request->alamat,
-                'tgl_lahir' => $request->tgl_lahir,
-                'no_telp' => $request->no_telp,
-                'user_id' => $user->id,
-            ]);
-        });
+                $petugas = \App\Models\Petugas::create([
+                    'name' => $request->nama,
+                    'nik' => $request->nik,
+                    'email' => $request->email,
+                    'alamat' => $request->alamat,
+                    'tgl_lahir' => $request->tgl_lahir,
+                    'no_telp' => $request->no_telp,
+                    'user_id' => $user->id,
+                ]);
+            });
+        } catch (\Exception $e) {
+            dd($e);
+            return back()->with('error', 'Data Added Failed');
+        }
         toast('Success', 'Data Added Successfully');
         return redirect('admin/akun-petugas')->with('success', 'Data Added Successfully');
     }

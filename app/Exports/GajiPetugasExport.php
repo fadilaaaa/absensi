@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use App\Models\Gaji;
 
-class GajiExport implements FromView, ShouldAutoSize
+class GajiPetugasExport implements FromView, ShouldAutoSize
 {
     protected $params;
     public function __construct($params)
@@ -20,7 +20,8 @@ class GajiExport implements FromView, ShouldAutoSize
     public function view(): View
     {
         return view('exports.gaji', [
-            'gajis' => Gaji::whereMonth('created_at', $this->params['bulanint'])
+            'gajis' => Gaji::where('petugas_id', $this->params['petugas_id'])
+                ->whereMonth('created_at', $this->params['bulanint'])
                 ->whereYear('created_at', $this->params['tahun'])
                 ->get()
                 ->sortByDesc('created_at')

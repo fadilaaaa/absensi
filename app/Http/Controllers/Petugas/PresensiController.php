@@ -9,6 +9,9 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Presensi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+use App\Exports\PresensiPetugasExport;
 
 class PresensiController extends \App\Http\Controllers\Controller
 {
@@ -27,6 +30,7 @@ class PresensiController extends \App\Http\Controllers\Controller
     }
     public function index(Request $request)
     {
+
         $todayPresensi = Presensi::where('petugas_id', Auth::user()->petugas->id)
             ->whereDate('created_at', date('Y-m-d'))
             ->first();
@@ -78,11 +82,51 @@ class PresensiController extends \App\Http\Controllers\Controller
             return response()->json(['status' => 'error', 'message' => 'Data Added Failed'], 500);
         }
     }
-    public function riwayat($id)
+    public function riwayat(Request $request, $id)
     {
+        $bulan = ($request->get('bulan'))
+            ? $request->get('bulan') :
+            Carbon::now()->locale('id')->getTranslatedMonthName();
+        $tahun = ($request->get('tahun'))
+            ? $request->get('tahun') : Carbon::now()->year;
+        $bulanint = $this->bulan2int($bulan);
         $presensi = Presensi::where('petugas_id', Auth::user()->petugas->id)
             ->whereNotNull('waktu_masuk')
-            ->orderBy('created_at', 'desc')->get();
-        return view('petugas.presensiRiwayat', compact('presensi'));
+            ->whereMonth('created_at', $bulanint)
+            ->whereYear('created_at', $tahun)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('petugas.presensiRiwayat', compact('presensi', 'bulan', 'tahun'));
+    }
+    public function export(Request $request, $id)
+    {
+        $bulan = ($request->get('bulan'))
+            ? $request->get('bulan') :
+            Carbon::now()->locale('id')->getTranslatedMonthName();
+        $tahun = ($request->get('tahun'))
+            ? $request->get('tahun') : Carbon::now()->year;
+        $bulanint = $this->bulan2int($bulan);
+        $fileName = 'laporan-presensi_' . time() . '.xlsx';
+        return Excel::download(new PresensiPetugasExport(['bulanint' => $bulanint, 'tahun' => $tahun, 'petugas_id' => $id]), $fileName);
+    }
+    public function bulan2int($date_string)
+    {
+        return strtr(
+            strtolower($date_string),
+            array(
+                'januari' => 1,
+                'februari' => 2,
+                'maret' => 3,
+                'april' => 4,
+                'mei' => 5,
+                'juni' => 6,
+                'juli' => 7,
+                'agustus' => 8,
+                'september' => 9,
+                'oktober' => 10,
+                'november' => 11,
+                'desember' => 12,
+            )
+        );
     }
 }

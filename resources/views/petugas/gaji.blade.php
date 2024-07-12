@@ -84,7 +84,7 @@
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Bulan</label>
                 </div>
-                <select class="custom-select" id="inputGroupSelect01">
+                <select class="custom-select" id="bulanFil">
                    ${StringOptionMonths}
                 </select>
             </div>
@@ -92,12 +92,17 @@
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Tahun</label>
                 </div>
-                <select class="custom-select" id="inputGroupSelect01">
+                <select class="custom-select" id="tahunFil">
                     ${StringOptionYears}
                 </select>
             </div>
         </label>`);
-
+            $('#bulanFil, #tahunFil').change(() => {
+                const bulan = $('#bulanFil').val();
+                const tahun = $('#tahunFil').val();
+                const uri = window.location.href.split('?')[0];
+                window.location.href = `${uri}?bulan=${bulan}&tahun=${tahun}`;
+            })
             dataFilterBox.css({
                 "display": "flex",
                 "justify-content": "space-between",
@@ -110,12 +115,12 @@
             $('#dataTable_length').parent().hide()
             $('#dataTable_filter').parent().addClass('col-md-12')
             $('#dataTable_info').parent().parent().prepend(`
-            <div class="col-12" style="display: flex;justify-content: right">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Export Excel
-                </button>
-            </div>
-            `)
+        <div class="col-12" style="display: flex;justify-content: right">
+            <a href="{{ url('petugas/gaji/' . Auth::user()->petugas->id . '/export') }}?bulan={{ $bulan }}&tahun={{ $tahun }}" class="btn btn-primary">
+                Export Excel
+            </a>
+        </div>
+        `)
         });
     </script>
 @endpush

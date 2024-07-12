@@ -339,6 +339,27 @@
                 title: '{{ session('success') }}'
             });
         @endif
+        @if (session('error'))
+            // swal("Gagal!", "{{ session('error') }}", "error");
+            var toastMixin = Swal.mixin({
+                toast: true,
+                icon: 'error',
+                title: 'General Title',
+                animation: false,
+                position: 'top-right',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+            toastMixin.fire({
+                animation: true,
+                title: '{{ session('error') }}'
+            });
+        @endif
     </script>
     <script>
         $(document).ready(function() {

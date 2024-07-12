@@ -211,15 +211,17 @@
     </form>
     <script>
         $(document).ready(function() {
+            const bulan = $('#bulanFil').val();
+            const tahun = $('#tahunFil').val();
             $('#dataTable_length').parent().hide()
             $('#dataTable_filter').parent().addClass('col-md-12')
-            // $('#dataTable_info').parent().parent().prepend(`
-        // <div class="col-12" style="display: flex;justify-content: right">
-        //     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        //         Export Excel
-        //     </button>
-        // </div>
-        // `)
+            $('#dataTable_info').parent().parent().prepend(`
+        <div class="col-12" style="display: flex;justify-content: right">
+            <a href="{{ url('admin/gaji/exportExcel') }}?bulan=${bulan}&tahun=${tahun}" class="btn btn-primary">
+                Export Excel
+            </a>
+        </div>
+        `)
             const btnPrint = document.getElementById('print');
             btnPrint.addEventListener('click', function(e) {
                 e.preventDefault();

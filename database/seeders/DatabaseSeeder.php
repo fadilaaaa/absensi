@@ -77,18 +77,53 @@ class DatabaseSeeder extends Seeder
                 'jenis' => 'Cuti',
                 'keterangan' => 'Pulang kampung',
             ]);
-            $bulantanggal = CarbonPeriod::create(Carbon::now()->subMonths(3)->startOfMonth(), Carbon::now())->toArray();
+            $bulantanggal = CarbonPeriod::create(Carbon::now()->subYear()->startOfMonth(), Carbon::now())->toArray();
             foreach ($bulantanggal as $tanggal) {
                 $jadwalHari = $jadwal->hari;
-                $jadwalHari = explode('-', $jadwalHari);
-                $daysOfWeek = [1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu', 7 => 'Minggu'];
-                $jadwalHari = array_map(function ($hari) use ($daysOfWeek) {
-                    return array_search($hari, $daysOfWeek);
-                }, $jadwalHari);
-                $date = Carbon::parse($tanggal)->locale('id');
-                if ($date->dayOfWeek >= $jadwalHari[0] || $date->dayOfWeek <= $jadwalHari[1]) {
-                    $bmasuk = $faker->randomElement(['imgpres/1.jpg', null]);
+                $jadwalBulan = $jadwal->periode;
+                $jadwalBulan = explode('-', $jadwalBulan);
+                $monthsMap = [
+                    'Januari' => 1,
+                    'Februari' => 2,
+                    'Maret' => 3,
+                    'April' => 4,
+                    'Mei' => 5,
+                    'Juni' => 6,
+                    'Juli' => 7,
+                    'Agustus' => 8,
+                    'September' => 9,
+                    'Oktober' => 10,
+                    'November' => 11,
+                    'Desember' => 12,
+                ];
+                $jadwalBulan = array_map(function ($bulan) use ($monthsMap) {
+                    return $monthsMap[$bulan];
+                }, $jadwalBulan);
+                $arrayJadwalBulan = [];
+                for ($jb = $jadwalBulan[0]; $jb <= $jadwalBulan[1]; $jb++) {
+                    $arrayJadwalBulan[] = $jb;
+                }
 
+                $jadwalHari = explode('-', $jadwalHari);
+                $daysOfWeek = [
+                    'senin' => 0,
+                    'selasa' => 1,
+                    'rabu' => 2,
+                    'kamis' => 3,
+                    'jumat' => 4,
+                    'sabtu' => 5,
+                    'minggu' => 6,
+                ];
+                $jadwalHari = array_map(function ($hari) use ($daysOfWeek) {
+                    return $daysOfWeek[strtolower($hari)];
+                }, $jadwalHari);
+                $arrayJadwalHari = [];
+                for ($jh = $jadwalHari[0]; $jh <= $jadwalHari[1]; $jh++) {
+                    $arrayJadwalHari[] = $jh;
+                }
+                $date = Carbon::parse($tanggal)->locale('id');
+                if (in_array($date->month, $arrayJadwalBulan) && in_array($date->dayOfWeek, $arrayJadwalHari)) {
+                    $bmasuk = $faker->randomElement(['imgpres/1.jpg', null]);
                     if ($bmasuk == null) {
                         $bkeluar = null;
                         $wkeluar = null;
@@ -107,14 +142,17 @@ class DatabaseSeeder extends Seeder
                         'created_at' => strtotime($tanggal),
                     ]);
                 }
+                if ($date == $date->endOfMonth()) {
+                    $baseGaji = 2500000;
+                    \App\Models\Gaji::create([
+                        'petugas_id' => $user->id,
+                        'gaji' => $baseGaji,
+                        'potongan' => $petugas->getPotonganGajiBulanIni(),
+                        'total' => $baseGaji - ($baseGaji * $petugas->getPotonganGajiBulanIni() / 100),
+                    ]);
+                }
             }
-            $baseGaji = 2500000;
-            \App\Models\Gaji::create([
-                'petugas_id' => $user->id,
-                'gaji' => $baseGaji,
-                'potongan' => $petugas->getPotonganGajiBulanIni(),
-                'total' => $baseGaji - ($baseGaji * $petugas->getPotonganGajiBulanIni() / 100),
-            ]);
+
             \App\Models\Pengaduan::create([
                 'petugas_id' => $user->id,
                 'tanggal' => date('Y-m-d'),

@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Models\Gaji;
 use App\Models\Presensi;
+use App\Models\Petugas;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\GajiExport;
+use App\Exports\GajiPetugasExport;
 
 class GajiController extends \App\Http\Controllers\Controller
 {
@@ -24,8 +27,8 @@ class GajiController extends \App\Http\Controllers\Controller
         $presensiBulanIni = Presensi::getTotalPresensiBulanIni();
         $gajis = Gaji::whereMonth('created_at', $bulanint)
             ->whereYear('created_at', $tahun)
-            ->get();
-
+            ->get()
+            ->sortByDesc('created_at');
         if ($request->wantsJson()) {
             return response()->json([
                 'data' => $gajis
@@ -62,15 +65,17 @@ class GajiController extends \App\Http\Controllers\Controller
             Carbon::now()->locale('id')->getTranslatedMonthName();
         $tahun = ($request->get('tahun'))
             ? $request->get('tahun') : Carbon::now()->year;
+        // $bulanint = $this->bulan2int($bulan);
         $gaji = Gaji::where('petugas_id', auth()->user()->petugas->id);
         if ($request->get('bulan')) {
-            $bulan = $this->bulan2int($request->get('bulan'));
-            $gaji = $gaji->whereMonth('created_at', $bulan);
+            $bulanint = $this->bulan2int($request->get('bulan'));
+            $gaji = $gaji->whereMonth('created_at', $bulanint);
         }
         if ($request->get('tahun')) {
             $tahun = $request->get('tahun');
             $gaji = $gaji->whereYear('created_at', $tahun);
         }
+        // dd($bulan, $tahun, $gaji->get());
         $gaji = $gaji->get()->sortByDesc('created_at');
         return view('petugas.gaji', compact('gaji', 'bulan', 'tahun'));
     }
@@ -78,17 +83,32 @@ class GajiController extends \App\Http\Controllers\Controller
     {
         $ubah = false;
         $baseGaji = 2500000;
-        $gajis = Gaji::whereMonth('created_at', Carbon::now()->month)
-            ->whereYear('created_at', Carbon::now()->year)
-            ->get();
+        $petugas = Petugas::where('is_admin', false)->get();
+        // $gajis = Gaji::whereMonth('created_at', Carbon::now()->month)
+        //     ->whereYear('created_at', Carbon::now()->year)
+        //     ->get();
         DB::beginTransaction();
         try {
-            foreach ($gajis as $gaji) {
-                if ($gaji->potongan != $gaji->petugas->getPotonganGajiBulanIni()) {
+            foreach ($petugas as $item) {
+                if ($item->gajiBulanIni() == null) {
+                    $gaji = Gaji::create([
+                        'petugas_id' => $item->id,
+                        'gaji' => $baseGaji,
+                        'total' => $baseGaji - ($baseGaji * $item->getPotonganGajiBulanIni() / 100),
+                        'potongan' => $item->getPotonganGajiBulanIni()
+                    ]);
                     $ubah = true;
-                    $gaji->potongan = $gaji->petugas->getPotonganGajiBulanIni();
-                    $gaji->total = $baseGaji - ($baseGaji * $gaji->petugas->getPotonganGajiBulanIni() / 100);
-                    $gaji->save();
+                } else {
+                    $gaji = Gaji::where('petugas_id', $item->id)
+                        ->whereMonth('created_at', Carbon::now()->month)
+                        ->whereYear('created_at', Carbon::now()->year)
+                        ->first();
+                    if ($gaji->potongan != $item->getPotonganGajiBulanIni()) {
+                        $ubah = true;
+                        $gaji->potongan = $item->getPotonganGajiBulanIni();
+                        $gaji->total = $baseGaji - ($baseGaji * $item->getPotonganGajiBulanIni() / 100);
+                        $gaji->save();
+                    }
                 }
             }
             if ($ubah) {
@@ -99,6 +119,7 @@ class GajiController extends \App\Http\Controllers\Controller
             }
         } catch (\Exception $e) {
             DB::rollBack();
+            throw ($e);
             return redirect()->back()->with('error', 'Gaji gagal di regenerasi');
         }
     }
@@ -135,6 +156,28 @@ class GajiController extends \App\Http\Controllers\Controller
             'bulanTahun' => $bulan . '/' . $tahun
         ];
         return response()->json($data, 200);
+    }
+    public function exportExcel(Request $request)
+    {
+        $bulan = ($request->get('bulan'))
+            ? $request->get('bulan') :
+            Carbon::now()->locale('id')->getTranslatedMonthName();
+        $tahun = ($request->get('tahun'))
+            ? $request->get('tahun') : Carbon::now()->year;
+        $bulanint = $this->bulan2int($bulan);
+        $fileName = 'laporan-gaji_' . time() . '.xlsx';
+        return Excel::download(new GajiExport(['bulanint' => $bulanint, 'tahun' => $tahun]), $fileName);
+    }
+    public function exportPetugas(Request $request, $id)
+    {
+        $bulan = ($request->get('bulan'))
+            ? $request->get('bulan') :
+            Carbon::now()->locale('id')->getTranslatedMonthName();
+        $tahun = ($request->get('tahun'))
+            ? $request->get('tahun') : Carbon::now()->year;
+        $bulanint = $this->bulan2int($bulan);
+        $fileName = 'laporan-gaji_' . time() . '.xlsx';
+        return Excel::download(new GajiPetugasExport(['bulanint' => $bulanint, 'tahun' => $tahun, 'petugas_id' => $id]), $fileName);
     }
     public function export(Request $request, $id)
     {

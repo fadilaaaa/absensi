@@ -110,7 +110,7 @@
                 <label class="input-group-text" for="inputGroupSelect01">Bulan</label>
             </div>
             <select class="custom-select" id="monthInput">
-                <option selected>Pilih</option>
+                <option value='' selected>Pilih</option>
                 ${OptionsMonthsString}
             </select>
         </div>

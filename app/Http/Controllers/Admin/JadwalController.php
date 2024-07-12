@@ -13,7 +13,7 @@ class JadwalController extends \App\Http\Controllers\Controller
     public function index(Request $request)
     {
         $petugas = \App\Models\Petugas::where('is_admin', 0)->get();
-        $jadwal = \App\Models\Jadwal::with('petugas')->get();
+        $jadwal = \App\Models\Jadwal::with('petugas')->get()->sortByDesc('created_at');
 
         $title = 'Delete Data!';
         $text = "Are you sure you want to delete?";

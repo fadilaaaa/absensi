@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use App\Models\Presensi;
 
-class PresensiExport implements FromView, ShouldAutoSize
+class PresensiPetugasExport implements FromView, ShouldAutoSize
 {
     protected $params;
     public function __construct($params)
@@ -29,8 +29,9 @@ class PresensiExport implements FromView, ShouldAutoSize
                     'petugas.name',
                     'petugas.nik',
                 )
-                ->whereYear('presensis.created_at', $this->params['year'])
-                ->where('jadwals.periode', $this->params['periode'])
+                ->where('presensis.petugas_id', $this->params['petugas_id'])
+                ->whereYear('presensis.created_at', $this->params['tahun'])
+                ->whereMonth('presensis.created_at', $this->params['bulanint'])
                 ->get()
                 ->sortByDesc('created_at')
         ]);
