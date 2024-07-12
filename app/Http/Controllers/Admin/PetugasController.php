@@ -168,6 +168,7 @@ class PetugasController extends \App\Http\Controllers\Controller
     public function destroy($id)
     {
         $petugas = \App\Models\Petugas::find($id);
+        // $petugas->user->delete();
         $petugas->delete();
         toast('Success', 'Data Deleted Successfully');
         return redirect('admin/akun-petugas')->with('success', 'Data Deleted Successfully');
