@@ -91,44 +91,69 @@
                 "pageLength": 5,
                 "pagingType": "simple_numbers",
             });
+            const arrayMonths = [
+                'Januari',
+                'Februari',
+                'Maret',
+                'April',
+                'Mei',
+                'Juni',
+                'Juli',
+                'Agustus',
+                'September',
+                'Oktober',
+                'November',
+                'Desember'
+            ]
+            const StringOptionMonths = arrayMonths.map((item) => {
+                return `<option ${item==="{{ $bulan }}"?'selected':''} value="${item}">${item}</option>`
+            }).join('')
+            const mapYears = [
+                2024,
+                2023,
+                2022,
+            ]
+            const StringOptionYears = mapYears.map((item) => {
+                return `<option ${item=={{ $tahun }}?'selected':''} value="${item}">${item}</option>`
+            }).join('')
             const dataFilterBox = $('#dataTable_filter');
             dataFilterBox.prepend(`<label style="display: flex;margin-bottom: 0.5rem;align-items: center;">Filter:
-            <div class="input-group mx-1">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Bulan</label>
-                </div>
-                <select class="custom-select" id="inputGroupSelect01">
-                    <option selected>Pilih</option>
-                    <option value="Januari">Januari</option>
-                    <option value="Februari">Februari</option>
-                    <option value="Maret">Maret</option>
-                    <option value="April">April</option>
-                    <option value="Mei">Mei</option>
-                    <option value="Juni">Juni</option>
-                    <option value="Juli">Juli</option>
-                    <option value="Agustus">Agustus</option>
-                    <option value="September">September</option>
-                    <option value="Oktober">Oktober</option>
-                    <option value="November">November</option>
-                    <option value="Desember">Desember</option>
-                </select>
+        <div class="input-group mx-1">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Bulan</label>
             </div>
-            <div class="input-group mx-1">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Tahun</label>
-                </div>
-                <select class="custom-select" id="inputGroupSelect01">
-                    <option selected>Pilih</option>
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                </select>
+            <select class="custom-select" id="bulanFil" value="{{ $bulan }}">
+                ${StringOptionMonths}
+            </select>
+        </div>
+        <div class="input-group mx-1">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Tahun</label>
             </div>
-        </label>`);
+            <select class="custom-select" id="tahunFil" value="{{ $tahun }}">
+                ${StringOptionYears}
+            </select>
+        </div>
+    </label>`);
+            dataFilterBox.append(
+                `<div><a href="{{ url('admin/gaji/regenerate') }}" class="btn btn-primary" style="margin-left: 1rem"><i class="fas fa-sync-alt"></i> Refresh</a>
+                <a href="{{ url('admin/gaji/export/?bulan=' . $bulan . '&tahun=' . $tahun) }}" class="btn btn-secondary" style="margin-left: 1rem"><i class="fas fa-print"></i>  Cetak</a></div>`
+            );
+
+            // dataFilterBox.append(
+            //     `<button class="btn btn-info" style="margin-left: 1rem"><i class="fas fa-plus"></i>  Tambah</button>`
+            // );
             dataFilterBox.css({
                 "display": "flex",
                 "justify-content": "space-between",
                 "align-items": "center"
             });
+
+            $('#bulanFil, #tahunFil').change(() => {
+                const bulan = $('#bulanFil').val();
+                const tahun = $('#tahunFil').val();
+                window.location.href = `{{ url('petugas/jadwal') }}?bulan=${bulan}&tahun=${tahun}`;
+            })
         });
     </script>
     <script>
