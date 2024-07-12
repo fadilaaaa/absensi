@@ -37,8 +37,8 @@ class Petugas extends Model
     public function gajiBulanIni()
     {
         return $this->hasMany(Gaji::class)
-            ->whereMonth('created_at', date('m'))
-            ->whereYear('created_at', date('Y'))
+            ->whereMonth('tanggal', date('m'))
+            ->whereYear('tanggal', date('Y'))
             ->first();
     }
     public function getPotonganGajiBulanIni()

@@ -25,10 +25,10 @@ class GajiController extends \App\Http\Controllers\Controller
             ? $request->get('tahun') : Carbon::now()->year;
         $bulanint = $this->bulan2int($bulan);
         $presensiBulanIni = Presensi::getTotalPresensiBulanIni();
-        $gajis = Gaji::whereMonth('created_at', $bulanint)
-            ->whereYear('created_at', $tahun)
+        $gajis = Gaji::whereMonth('tanggal', $bulanint)
+            ->whereYear('tanggal', $tahun)
             ->get()
-            ->sortByDesc('created_at');
+            ->sortByDesc('tanggal');
         if ($request->wantsJson()) {
             return response()->json([
                 'data' => $gajis
@@ -90,10 +90,12 @@ class GajiController extends \App\Http\Controllers\Controller
         DB::beginTransaction();
         try {
             foreach ($petugas as $item) {
+                // dd($item->gajiBulanIni()->get());
                 if ($item->gajiBulanIni() == null) {
                     $gaji = Gaji::create([
                         'petugas_id' => $item->id,
                         'gaji' => $baseGaji,
+                        'tanggal' => Carbon::now()->toDateString(),
                         'total' => $baseGaji - ($baseGaji * $item->getPotonganGajiBulanIni() / 100),
                         'potongan' => $item->getPotonganGajiBulanIni()
                     ]);

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('gaji');
             $table->string('potongan');
             $table->string('total');
+            $table->date('tanggal');
             $table->foreignId('petugas_id')->constrained('petugas');
             $table->timestamps();
         });

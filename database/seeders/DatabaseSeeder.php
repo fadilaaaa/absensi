@@ -149,6 +149,7 @@ class DatabaseSeeder extends Seeder
                     \App\Models\Gaji::create([
                         'petugas_id' => $user->id,
                         'gaji' => $baseGaji,
+                        'tanggal' => $date->toDateString(),
                         'potongan' => $petugas->getPotonganGajiBulanIni(),
                         'total' => $baseGaji - ($baseGaji * $petugas->getPotonganGajiBulanIni() / 100),
                     ]);
