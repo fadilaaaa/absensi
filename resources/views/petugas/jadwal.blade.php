@@ -135,10 +135,6 @@
             </select>
         </div>
     </label>`);
-            dataFilterBox.append(
-                `<div><a href="{{ url('admin/gaji/regenerate') }}" class="btn btn-primary" style="margin-left: 1rem"><i class="fas fa-sync-alt"></i> Refresh</a>
-                <a href="{{ url('admin/gaji/export/?bulan=' . $bulan . '&tahun=' . $tahun) }}" class="btn btn-secondary" style="margin-left: 1rem"><i class="fas fa-print"></i>  Cetak</a></div>`
-            );
 
             // dataFilterBox.append(
             //     `<button class="btn btn-info" style="margin-left: 1rem"><i class="fas fa-plus"></i>  Tambah</button>`
