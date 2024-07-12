@@ -49,14 +49,20 @@ class DashboardController extends Controller
             $presensiHariIni = Presensi::whereDate('created_at', Carbon::now())->get();
             // dd($totalHadirPerhariSelamaSeminggu);
             $presentasiKehadiran = $totalHadirHariIni / $totalPetugas * 100;
-            $message = [];
+            // $message = [];
             $AbsenKemarin = Presensi::whereDate('created_at', Carbon::yesterday())
                 ->whereNull('waktu_masuk')
                 ->count();
             if ($AbsenKemarin < 1) {
                 $re = $this->genPres();
                 if ($re['status'] == 'success') {
-                    $message = ['success', 'Presensi berhasil di generate'];
+                    return view("admin.dashboard", compact(
+                        'totalPetugas',
+                        'totalHadirHariIni',
+                        'totalHadirPerhariSelamaSeminggu',
+                        'presensiHariIni',
+                        'presentasiKehadiran'
+                    ))->with('success', 'Presensi berhasil di generate');
                 }
             }
             return view("admin.dashboard", compact(
@@ -65,7 +71,7 @@ class DashboardController extends Controller
                 'totalHadirPerhariSelamaSeminggu',
                 'presensiHariIni',
                 'presentasiKehadiran'
-            ))->with(...$message);
+            ));
         } else {
             $petugas = Petugas::where('user_id', Auth::user()->id)->first();
             return view("petugas.dashboard", compact('petugas'));
