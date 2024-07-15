@@ -25,7 +25,7 @@
                                 <tbody>
                                     @foreach ($gaji as $item)
                                         <tr>
-                                            <td>{{ Carbon\Carbon::parse($item->created_at)->locale('id')->translatedFormat('d F Y') }}
+                                            <td>{{ Carbon\Carbon::parse($item->tanggal)->locale('id')->translatedFormat('d F Y') }}
                                             </td>
                                             <td>Rp.
                                                 {{ number_format($item->gaji, 0, ',', '.') }}</td>

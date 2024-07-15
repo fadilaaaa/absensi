@@ -65,18 +65,12 @@ class GajiController extends \App\Http\Controllers\Controller
             Carbon::now()->locale('id')->getTranslatedMonthName();
         $tahun = ($request->get('tahun'))
             ? $request->get('tahun') : Carbon::now()->year;
-        // $bulanint = $this->bulan2int($bulan);
-        $gaji = Gaji::where('petugas_id', auth()->user()->petugas->id);
-        if ($request->get('bulan')) {
-            $bulanint = $this->bulan2int($request->get('bulan'));
-            $gaji = $gaji->whereMonth('created_at', $bulanint);
-        }
-        if ($request->get('tahun')) {
-            $tahun = $request->get('tahun');
-            $gaji = $gaji->whereYear('created_at', $tahun);
-        }
+        $bulanint = $this->bulan2int($bulan);
+        $gaji = Gaji::where('petugas_id', auth()->user()->petugas->id)
+            ->whereYear('tanggal', $tahun)
+            ->whereMonth('tanggal', $bulanint);
         // dd($bulan, $tahun, $gaji->get());
-        $gaji = $gaji->get()->sortByDesc('created_at');
+        $gaji = $gaji->get()->sortByDesc('tanggal');
         return view('petugas.gaji', compact('gaji', 'bulan', 'tahun'));
     }
     public function regenerate()
