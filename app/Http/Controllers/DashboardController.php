@@ -23,6 +23,20 @@ class DashboardController extends Controller
 
             $totalPetugas = \App\Models\User::where('role', '=', 'user')
                 ->count();
+            if ($totalPetugas == 0) {
+                $totalHadirHariIni = 0;
+                $totalHadirPerhariSelamaSeminggu = 0;
+                $presensiHariIni = [];
+                $presentasiKehadiran = 0;
+                // $message = "Tidak ada petugas yang terdaftar";
+                return view("admin.dashboard", compact(
+                    'totalPetugas',
+                    'totalHadirHariIni',
+                    'totalHadirPerhariSelamaSeminggu',
+                    'presensiHariIni',
+                    'presentasiKehadiran'
+                ));
+            }
             $totalHadirHariIni = \App\Models\Presensi::whereNotNull('waktu_masuk')
                 ->whereDate('created_at', date('Y-m-d'))
                 ->count();
