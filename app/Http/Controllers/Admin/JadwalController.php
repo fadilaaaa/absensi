@@ -69,6 +69,9 @@ class JadwalController extends \App\Http\Controllers\Controller
             'lokasi' => 'required',
             'waktu' => 'required',
             'hari' => 'required',
+            'lat' => 'required',
+            'long' => 'required',
+            'radius' => 'required',
         ]);
         DB::beginTransaction();
         try {

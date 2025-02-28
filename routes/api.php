@@ -14,6 +14,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', [\App\Http\Controllers\SPA\AuthController::class, 'login']);
+
+
+
+Route::middleware('auth-api')->group(function () {
+    Route::get('logout', [\App\Http\Controllers\SPA\AuthController::class, 'logout']);
+    Route::get('user', [\App\Http\Controllers\SPA\AuthController::class, 'getProfile']);
+    Route::put('user', [\App\Http\Controllers\SPA\AuthController::class, 'updateProfile']);
+    Route::post('user/change-password', [\App\Http\Controllers\SPA\AuthController::class, 'changePassword']);
+
+    Route::get('petugas/izin', [\App\Http\Controllers\SPA\PetugasController::class, 'getIzin']);
+    Route::post('petugas/izin', [\App\Http\Controllers\SPA\PetugasController::class, 'storeIzin']);
+
+    Route::get('petugas/pengaduan', [\App\Http\Controllers\SPA\PetugasController::class, 'getPengaduan']);
+    Route::post('petugas/pengaduan', [\App\Http\Controllers\SPA\PetugasController::class, 'storePengaduan']);
+
+    Route::get('petugas/gaji', [\App\Http\Controllers\SPA\PetugasController::class, 'getGaji']);
+
+    Route::get('absensi/today', [\App\Http\Controllers\SPA\AbsensiController::class, 'getTodayPresensi']);
+    Route::post('absensi', [\App\Http\Controllers\SPA\AbsensiController::class, 'storeAbsensi']);
+    Route::get('absensi', [\App\Http\Controllers\SPA\AbsensiController::class, 'getRiwayatAbsensi']);
 });

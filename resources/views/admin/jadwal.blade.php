@@ -1,6 +1,14 @@
 @extends('layouts.master')
 
 @section('title', 'Jadwal Kerja')
+@push('styles')
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+@endpush
+@push('scripts')
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+@endpush
 
 @section('content')
     <div class="container-fluid">
@@ -28,6 +36,34 @@
                                         <option value="Januari-Mei">Januari-Mei</option>
                                         <option value="Juni-Desember">Juni-Desember</option>
                                     </select>
+                                    <button type="button"
+                                    class="btn btn-info mt-3" data-toggle="modal" data-target="#mapModal">Pilih Titik dan Radius
+                                    </button>
+<!-- Modal -->
+<div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mapModalLabel">Pilih Titik dan Radius</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="radius">Radius (meter)</label>
+                    <input type="number" class="form-control" id="radius" name="radius" min="0">
+                </div>
+                <div id="map" style="height: 400px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary" id="saveLocation">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
 
                                 </div>
                                 <div class="form-group col-md-6">
@@ -47,6 +83,9 @@
                                     </div>
                                 </div>
                             </div>
+                            {{-- <div id="map" style="height: 300px;"></div> --}}
+                            <input type="hidden" name="latitude" id="latitude">
+                            <input type="hidden" name="longitude" id="longitude">
                         </form>
                     </div>
                 </div>
@@ -101,27 +140,6 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                    {{-- <tr>
-                                        <td>1</td>
-                                        <td>Ahmad Fauzi</td>
-                                        <td>3201123456789012</td>
-                                        <td>Januari-Maret</td>
-                                        <td>Dolok Sabggul</td>
-                                        <td>08.00 - 15.00</td>
-                                        <td>Senin - Sabtu</td>
-                                        <td class="action-column">
-                                            <button data-toggle="modal" data-target="#exampleModal" data-nama="Ahmad Fauzi"
-                                                data-nik="3201123456789012" data-periode="Januari-Maret"
-                                                data-alamat="Dolok Sabggul" data-waktu="08.00 - 15.00"
-                                                data-hari="Senin - Sabtu" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <a data-confirm-delete="true" href="{{ url('admin/jadwal/99') }}"
-                                                class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </td>
-                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>
@@ -185,6 +203,40 @@
         $(document).ready(function() {
             $('#dataTable').DataTable();
         });
+
+        // Inisialisasi peta
+        var map = L.map('map').setView([2.2613970893346202, 98.749640603538], 15); // Set view ke Jakarta
+
+        // Tambahkan tile layer (peta dasar)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Pin Peta untuk penugasan titik lokasi'
+        }).addTo(map);
+
+        // Variabel untuk menyimpan marker
+        var marker = null;
+
+        // Fungsi untuk menambahkan pin saat peta diklik
+        map.on('click', function(e) {
+            var lat = e.latlng.lat;
+            var lng = e.latlng.lng;
+
+            // Hapus marker sebelumnya jika ada
+            if (marker) {
+                map.removeLayer(marker);
+            }
+
+            // Tambahkan marker baru
+            marker = L.marker([lat, lng]).addTo(map);
+
+            // Isi nilai latitude dan longitude ke input hidden
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lng;
+        });
+        $('#mapModal').on('show.bs.modal', function(){
+  setTimeout(function() {
+    map.invalidateSize();
+  }, 1);
+ });
     </script>
     <script>
         const dataPetugas = @json($petugas);

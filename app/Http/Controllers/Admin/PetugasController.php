@@ -101,6 +101,7 @@ class PetugasController extends \App\Http\Controllers\Controller
             'tgl_lahir' => 'required',
             'no_telp' => 'required',
             'password' => 'required',
+            'foto' => 'required',
         ]);
         try {
             DB::transaction(function () use ($request) {
@@ -108,6 +109,12 @@ class PetugasController extends \App\Http\Controllers\Controller
                     'username' => $request->username,
                     'password' => bcrypt($request->password),
                 ]);
+                $filename = null;
+                if ($request->hasFile('foto')) {
+                    $file = $request->file('foto');
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $file->storeAs('public/fotos', $filename);
+                }
 
                 $petugas = \App\Models\Petugas::create([
                     'name' => $request->nama,
@@ -117,6 +124,7 @@ class PetugasController extends \App\Http\Controllers\Controller
                     'tgl_lahir' => $request->tgl_lahir,
                     'no_telp' => $request->no_telp,
                     'user_id' => $user->id,
+                    'foto' => $filename,
                 ]);
             });
         } catch (\Exception $e) {
@@ -136,7 +144,10 @@ class PetugasController extends \App\Http\Controllers\Controller
             'alamat' => 'required',
             'tgl_lahir' => 'required',
             'no_telp' => 'required',
+            'foto' => 'required',
         ]);
+
+
         DB::beginTransaction();
         try {
             $petugas = \App\Models\Petugas::find($id);
@@ -146,6 +157,12 @@ class PetugasController extends \App\Http\Controllers\Controller
             $petugas->alamat = $request->alamat;
             $petugas->tgl_lahir = $request->tgl_lahir;
             $petugas->no_telp = $request->no_telp;
+            if ($request->hasFile('foto')) {
+                $file = $request->file('foto');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public/fotos', $filename);
+                $petugas->foto = $filename;
+            }
             $petugas->save();
 
             $user = \App\Models\User::find($petugas->user_id);

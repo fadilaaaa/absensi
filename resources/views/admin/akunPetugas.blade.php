@@ -25,7 +25,8 @@
                                     <input name="nama" type="text" class="form-control" id="nama">
                                     <label>NIK</label>
                                     <input name="nik" type="text" class="form-control" id="nik">
-
+                                    <label for="inputFoto">Upload Foto</label>
+                                    <input name="foto" type="file" class="form-control-file" >
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Alamat</label>
@@ -93,6 +94,7 @@
                                                     data-email="{{ $item->email }}"
                                                     data-username="{{ $item->user->username }}"
                                                     data-action="{{ url('admin/akun-petugas/' . $item->id) }}"
+                                                    data-foto="{{ $item->foto ?? 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/User-Pict-Profil.svg/320px-User-Pict-Profil.svg.png' }}"
                                                     class="btn btn-sm btn-primary">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
@@ -164,9 +166,9 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body mb-0 pb-0">
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6 mb-0">
                                 <label for="inputUsername">Username</label>
                                 <input name="username" type="text" class="form-control" id="inputUsername">
                                 <label for="inputPassword">Password</label>
@@ -175,9 +177,10 @@
                                 <input name="nama" type="text" class="form-control" id="inputNama">
                                 <label>NIK</label>
                                 <input name="nik" type="text" class="form-control" id="inputNik">
-
+                                <label for="inputFoto">Update Foto</label>
+                                <input name="foto" type="file" accept="image/*" class="form-control-file" id="inputFoto">
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6 mb-0">
                                 <label for="inputAlamat">Alamat</label>
                                 <input name="alamat" type="text" class="form-control" id="inputAlamat">
                                 <label for="inputTanggalLahir">Tanggal Lahir</label>
@@ -186,6 +189,9 @@
                                 <input name="email" type="email" class="form-control" id="inputEmail">
                                 <label for="inputTelepon">No. Telepon</label>
                                 <input name="no_telp" type="text" class="form-control" id="inputTelepon">
+                                <div class="text-center">
+                                    <img id="imgShow" src="" width="100" height="100" alt="" class="img-fluid">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -311,9 +317,18 @@
 
                     document.getElementById('inputUsername').value = username;
                     document.getElementById('inputEmail').value = email;
+                    document.getElementById('imgShow').src = button.getAttribute('data-foto');
                     document.getElementById('modalForm').action = button.getAttribute(
                         'data-action');
                 });
+            });
+            document.getElementById('inputFoto').addEventListener('change', function() {
+                var file = this.files[0];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imgShow').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
             });
         });
     </script>

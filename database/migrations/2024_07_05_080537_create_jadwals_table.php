@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('lokasi');
             $table->string('waktu');
             $table->string('hari');
+            $table->integer('latitud')->nullable();
+            $table->integer('longitud')->nullable();
             $table->foreignId('petugas_id')->constrained('petugas');
             $table->timestamps();
         });

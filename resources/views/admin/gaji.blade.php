@@ -156,6 +156,7 @@
                 return `<option ${item==="{{ $bulan }}"?'selected':''} value="${item}">${item}</option>`
             }).join('')
             const mapYears = [
+                2025,
                 2024,
                 2023,
                 2022,
